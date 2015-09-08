@@ -1,0 +1,10 @@
+config/*.json
+node_modules
+*.js
+*.map
+npm-debug.log
+.DS_Store
+.idea
+public/app.css
+public/app.js
+.out

@@ -1,0 +1,41 @@
+{
+  "name": "datalytics",
+  "version": "1.0.0",
+  "description": "Datalytics tool",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm update && node node_modules/gulp/bin/gulp.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/FedericoGinosa/datalytics.git"
+  },
+  "keywords": [
+    "datalytics"
+  ],
+  "author": "Federico Ginosa <f.ginosa@gmail.com> (http://datalytics.it)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FedericoGinosa/datalytics/issues"
+  },
+  "homepage": "https://github.com/FedericoGinosa/datalytics#readme",
+  "dependencies": {
+    "express": "^4.13.3"
+  },
+  "devDependencies": {
+    "babelify": "^6.3.0",
+    "browserify": "^11.0.1",
+    "gulp": "4.0.0-alpha.1",
+    "gulp-babel": "^5.2.1",
+    "gulp-less": "^3.0.3",
+    "gulp-livereload": "^3.8.0",
+    "gulp-plumber": "^1.0.1",
+    "gulp-stream": "0.0.2",
+    "less-plugin-clean-css": "^1.5.1",
+    "uglifyify": "^3.0.1",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.4.0"
+  }
+}

@@ -1,0 +1,5 @@
+# Datalytics
+
+```
+npm start
+```
