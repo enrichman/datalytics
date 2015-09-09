@@ -1,28 +1,22 @@
 import mongoose from 'mongoose';
-import findOrCreate from 'mongoose-findorcreate';
 
 const userSchema = new mongoose.Schema({
-  username: {
-    type: String,
-    required: true,
-    index: true,
-    unique: true,
-  },
-  email: {
-    type: String,
-    required: true,
-    index: true,
-    unique: true,
-  },
+  idTwitter: String,
+  screen_name: String,
+  name: String,
+  location: String,
+  url: String,
+  followers_count: Number,
+  friends_count: Number,
+  listed_count: Number,
+  created_at: Date,
+  favourites_count: Number,
+  utc_offset: Number,
+  time_zone: String,
+  lang: String,
+  token: String,
+  tokenSecret: String,
 }, {strict: true});
-
-userSchema.plugin(findOrCreate);
-
-userSchema.methods = {
-  hello: () => {
-    return true;
-  },
-};
 
 const User = mongoose.model('User', userSchema);
 
