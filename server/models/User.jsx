@@ -2,14 +2,6 @@ import mongoose from 'mongoose';
 import findOrCreate from 'mongoose-findorcreate';
 
 const userSchema = new mongoose.Schema({
-  twitter_id: {
-    type: String,
-    index: true,
-    unique: true,
-  },
-  twitter_token: {
-    type: String,
-  },
   username: {
     type: String,
     required: true,
