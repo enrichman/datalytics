@@ -1,5 +1,5 @@
 # Datalytics
 
 ```
-npm start
+$ npm start
 ```
