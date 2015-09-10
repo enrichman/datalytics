@@ -15,9 +15,9 @@ class ApiController {
 
   status(req, res) {
     if (req.user) {
-      res.send({logged: true});
+      res.send({logged: true, user: req.user});
     } else {
-      res.status(401).send({logged: false});
+      res.status(401).send({logged: false, user: null});
     }
   }
 

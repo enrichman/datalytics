@@ -10,11 +10,12 @@ class DatalyticsStore extends Store {
 
     this.state = {
       logged: false,
+      user: null,
     };
   }
 
   handleNewStatus(content) {
-    this.setState({logged: content});
+    this.setState(content);
   }
 
 }

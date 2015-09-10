@@ -21,9 +21,6 @@
 html, body {
   height: 100%;
 }
-body {
-  background: #fff;
-}
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Roboto', sans-serif;
@@ -39,22 +36,20 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .Toolbar {
-  padding: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .5em 1em;
   background: @purple_one;
   overflow: auto;
   .Logo {
-    display: inline-block;
-    text-align: left;
     color: #fff;
-  }
-  .TwitterButton {
-    float: right;
   }
 }
 
 .Hero {
   position: absolute;
-  background: url('assets/hero.jpg');
+  background: url('assets/hero.jpg') no-repeat #060a09;
   background-position-y: -100px;
   background-size: cover;
   top: 0;
@@ -67,4 +62,12 @@ h1, h2, h3, h4, h5, h6 {
   h1, h2 {
     text-align: center;
   }
+}
+
+
+.Bacheca {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2em;
 }

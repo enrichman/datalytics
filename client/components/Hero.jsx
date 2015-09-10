@@ -10,12 +10,12 @@ class Hero extends React.Component {
   }
 
   render() {
-    return (
+    return !this.props.logged ? (
       <div className="Hero">
         <h1>DatalyticsUrl</h1>
         <h2>We make sense of big data.</h2>
       </div>
-    );
+    ) : null;
   }
 
 }

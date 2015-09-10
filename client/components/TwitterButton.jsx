@@ -7,10 +7,6 @@ class TwitterButton extends React.Component {
     super(props);
   }
 
-  componentDidMount() {
-    this.props.flux.getActions('datalytics').getStatus();
-  }
-
   getButton() {
     if (this.props.logged) {
       return {uri: '/api/v1/logout', text: 'logout'};
