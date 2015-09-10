@@ -12,6 +12,10 @@ class DatalyticsActions extends Actions {
     return this.data;
   }
 
+  openPage(page) {
+    return page;
+  }
+
 }
 
 export default DatalyticsActions;

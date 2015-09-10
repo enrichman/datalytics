@@ -7,15 +7,21 @@ class DatalyticsStore extends Store {
 
     const datalyticsActions = flux.getActionIds('datalytics');
     this.register(datalyticsActions.getStatus, this.handleNewStatus);
+    this.register(datalyticsActions.openPage, this.handleNewPage);
 
     this.state = {
       logged: false,
       user: null,
+      currentPage: 'my_analysis',
     };
   }
 
   handleNewStatus(content) {
     this.setState(content);
+  }
+
+  handleNewPage(page) {
+    this.setState({currentPage: page});
   }
 
 }

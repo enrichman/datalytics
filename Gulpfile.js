@@ -52,6 +52,9 @@ gulp.task('client', function() {
 
   rebundle = function() {
     bundler.bundle()
+      .on('error', function (err) {
+        console.log(err.toString());
+      })
       .pipe(source(config.client.dest.file))
       .pipe(buffer())
       .pipe(gulp.dest(config.client.dest.path))
