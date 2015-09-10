@@ -12,7 +12,7 @@ class RouteQuestion extends React.Component {
   render() {
     return (
       <div>
-        <h1>Le mie analisi</h1>
+        <h1>Assistenza</h1>
       </div>
     );
   }

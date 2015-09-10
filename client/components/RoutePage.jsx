@@ -10,7 +10,9 @@ class RoutePage extends React.Component {
   }
 
   render() {
-    return this.props.name === this.props.currentPage ? this.props.page : null;
+    return this.props.name === this.props.currentPage ? (
+      <div className="RoutePage">{this.props.page }</div>)
+      : null;
   }
 
 }
