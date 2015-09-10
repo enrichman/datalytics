@@ -24,12 +24,6 @@ class AnalysisController {
     return res.send({});
   }
 
-  /**
-   * Delete an element.
-   * @param req
-   * @param res
-   * @returns {{req: *, res: *}}
-   */
   deleteAnalysis(req, res) {
     return res.send({});
   }

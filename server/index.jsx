@@ -17,7 +17,7 @@ const app = express();
 app.use(morgan('dev'));
 
 mongoose.connect(config.databases.mongodb.uri, err => {
-  if (err) process.exit(1);
+  if (err) console.log(err);
 });
 
 app.use(express.static('public'));
@@ -45,8 +45,7 @@ app.use(expressSession({ secret: config.server.session, resave: true, saveUninit
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/', new AuthController);
 app.use('/api/v1', new ApiController);
 app.use('/api/v1/analysis', new AnalysisController);
 
-app.listen(app.get('env') === 'development' ? config.server.port : 8000);
+app.listen(app.get('env') === 'development' ? config.server.port : 80);

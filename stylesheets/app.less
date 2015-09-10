@@ -1,4 +1,70 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500);
+@import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css);
+
+
+@green_one:     #9ab459;
+@green_two:     #6eb067;
+@green_three:   #57947f;
+@purple_one:    #4f5592;
+@purple_two:    #724e93;
+@purple_three:  #a44b93;
+@blue:          #548696;
+@pink:          #d92d86;
+@red:           #dc1f43;
+@orange:        #e26028;
+@yellow:        #f7b127;
+
 * {
   margin: 0;
   padding: 0;
+}
+html, body {
+  height: 100%;
+}
+body {
+  background: #fff;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: lighter;
+}
+
+.Datalytics {
+  height: 100%;
+  & > h1,
+  & > h2 {
+    color: #000;
+  }
+}
+
+.Toolbar {
+  padding: 1em;
+  background: @purple_one;
+  overflow: auto;
+  .Logo {
+    display: inline-block;
+    text-align: left;
+    color: #fff;
+  }
+  .TwitterButton {
+    float: right;
+  }
+}
+
+.Hero {
+  position: absolute;
+  background: url('assets/hero.jpg');
+  background-position-y: -100px;
+  background-size: cover;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  h1 {
+    padding-top: 4em;
+  }
+  h1, h2 {
+    text-align: center;
+  }
 }
