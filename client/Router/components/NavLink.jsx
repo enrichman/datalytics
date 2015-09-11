@@ -9,7 +9,7 @@ class NavItem extends React.Component {
   handleClick() {
     const props = this.props;
     if (props !== null) {
-      props.flux.getActions('route').openPage(props.route);
+      props.flux.getActions('route').openPage(props.href);
     }
   }
 

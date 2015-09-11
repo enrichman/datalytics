@@ -49,9 +49,12 @@ app.use(expressSession({ secret: config.server.session, resave: true, saveUninit
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(express.static('public'));
-
 app.use('/api/v1', new ApiController);
 app.use('/api/v1/analysis', new AnalysisController);
+
+app.use(express.static('public'));
+app.get(/.*/, (req, res) => {
+  res.sendfile('./public/index.html');
+});
 
 app.listen(app.get('env') === 'development' ? config.server.port : 80);

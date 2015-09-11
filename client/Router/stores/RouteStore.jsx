@@ -1,4 +1,5 @@
 import { Store } from 'flummox';
+import RouteParser from 'route-parser';
 
 class RouteStore extends Store {
 
@@ -6,15 +7,20 @@ class RouteStore extends Store {
     super();
 
     const routeActions = flux.getActionIds('route');
-    this.register(routeActions.openPage, this.handleNewPage);
+    this.register(routeActions.openPage, this.handleNewRequest);
 
+    const pathname = window.location.pathname;
+    const route = new RouteParser(pathname);
     this.state = {
-      currentPage: 'my_analysis',
+      location: {
+        pathname: pathname,
+        params: route.match('*'),
+      },
     };
   }
 
-  handleNewPage(page) {
-    this.setState({currentPage: page});
+  handleNewRequest(path) {
+    this.setState({ location: {pathname: path}});
   }
 
 }

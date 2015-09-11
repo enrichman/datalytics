@@ -1,5 +1,5 @@
 import React from 'react';
-import mui from 'material-ui';
+import { List } from 'material-ui';
 import MenuItem from './MenuItem.jsx';
 import NavLink from './../Router/components/NavLink.jsx';
 import Route from './../Router/components/Route.jsx';
@@ -20,20 +20,20 @@ class Bacheca extends React.Component {
   render() {
     return this.props.logged ? (
       <ReactGridLayout className="Bacheca" cols={12} rowHeight={100}>
-        <mui.List key={1} _grid={{x: 0, y: 0, w: 3, h: 4}}>
+        <List key={1} _grid={{x: 0, y: 0, w: 3, h: 4}}>
           <FluxComponent connectToStores={['route']}>
-            <NavLink route="my_analysis" handler={<FluxComponent connectToStores={['datalytics']}><MenuItem icon="area-chart" text="Le mie analisi" /></FluxComponent>} />
-            <NavLink route="bookmark" handler={<FluxComponent connectToStores={['datalytics']}><MenuItem icon="bookmark" text="Preferite" /></FluxComponent>} />
-            <NavLink route="star" handler={<FluxComponent connectToStores={['datalytics']}><MenuItem icon="star" text="Popolari" /></FluxComponent>} />
-            <NavLink route="question" handler={<FluxComponent connectToStores={['datalytics']}><MenuItem icon="question-circle" text="Assistenza" /></FluxComponent>} />
+            <NavLink href="/" handler={<FluxComponent connectToStores={['datalytics']}><MenuItem icon="area-chart" text="Le mie analisi" /></FluxComponent>} />
+            <NavLink href="/bookmark" handler={<FluxComponent connectToStores={['datalytics']}><MenuItem icon="bookmark" text="Preferite" /></FluxComponent>} />
+            <NavLink href="/star/1" handler={<FluxComponent connectToStores={['datalytics']}><MenuItem icon="star" text="Popolari" /></FluxComponent>} />
+            <NavLink href="/question" handler={<FluxComponent connectToStores={['datalytics']}><MenuItem icon="question-circle" text="Assistenza" /></FluxComponent>} />
           </FluxComponent>
-        </mui.List>
+        </List>
         <div className="RoutePage" key={2} _grid={{x: 3, y: 0, w: 5, h: 3}}>
           <FluxComponent connectToStores={['route']}>
-            <Route name="my_analysis" page={<FluxComponent connectToStores={['datalytics']}><MyAnalysis /></FluxComponent>} />
-            <Route name="bookmark" page={<FluxComponent connectToStores={['datalytics']}><Prefered /></FluxComponent>} />
-            <Route name="star" page={<FluxComponent connectToStores={['datalytics']}><Popular /></FluxComponent>} />
-            <Route name="question" page={<FluxComponent connectToStores={['datalytics']}><Question /></FluxComponent>}/>
+            <Route path="/" page={<FluxComponent connectToStores={['datalytics']}><MyAnalysis /></FluxComponent>} />
+            <Route path="/bookmark" page={<FluxComponent connectToStores={['datalytics']}><Prefered /></FluxComponent>} />
+            <Route path="/star/:id" page={<FluxComponent connectToStores={['datalytics']}><Popular /></FluxComponent>} />
+            <Route path="/question" page={<FluxComponent connectToStores={['datalytics']}><Question /></FluxComponent>}/>
           </FluxComponent>
         </div>
         <div key={4} _grid={{x: 10, y: 2, w: 4, h: 4}}>

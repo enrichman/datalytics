@@ -42,7 +42,8 @@
     "react-fontawesome": "^0.3.2",
     "react-grid-layout": "^0.8.5",
     "react-tap-event-plugin": "^0.1.7",
-    "request": "^2.61.0"
+    "request": "^2.61.0",
+    "route-parser": "0.0.4"
   },
   "devDependencies": {
     "babel-runtime": "^5.8.20",

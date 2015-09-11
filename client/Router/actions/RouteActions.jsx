@@ -2,8 +2,9 @@ import { Actions } from 'flummox';
 
 class RouteActions extends Actions {
 
-  openPage(page) {
-    return page;
+  openPage(href) {
+    history.pushState({}, null, href);
+    return href;
   }
 
 }
