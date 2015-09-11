@@ -16,6 +16,8 @@ const userSchema = new mongoose.Schema({
   lang: String,
   token: String,
   tokenSecret: String,
+  profile_image_url: String,
+  analysis: [{type: mongoose.Schema.Types.ObjectId, ref: 'Analysis'}],
 }, {strict: true});
 
 const User = mongoose.model('User', userSchema);

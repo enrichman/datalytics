@@ -48,7 +48,7 @@ gulp.task('server', function() {
 gulp.task('client', function() {
   var bundler, rebundle;
   bundler = watchify(browserify({entries: config.client.src, debug: true, cache: {}, packageCache: {}}));
-  bundler.transform(babelify).transform(uglifyify);
+  bundler.transform(babelify.configure({experimental: true, optional: ['runtime']})).transform(uglifyify);
 
   rebundle = function() {
     bundler.bundle()

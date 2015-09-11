@@ -1,6 +1,5 @@
 import React from 'react';
 import mui from 'material-ui';
-import FluxComponent from 'flummox/component';
 
 class Avatar extends React.Component {
 
@@ -9,17 +8,21 @@ class Avatar extends React.Component {
   }
 
   getUser() {
-    return this.props.user;
+    const props = this.props;
+    if (props !== null) {
+      return props.user;
+    }
+    return null;
   }
 
   render() {
-    const user = this.props.user;
-    if (user) {
-      return (
-          <mui.Avatar size="45" src={user.profile_image_url}/>
-      );
+    const props = this.props;
+    let user = null;
+    if (props !== null) {
+      user = props.user;
     }
-    return null;
+
+    return user ? <mui.Avatar size="45" src={user.profile_image_url}/> : null;
   }
 
 }

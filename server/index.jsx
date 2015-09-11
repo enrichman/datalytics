@@ -11,10 +11,13 @@ import User from './models/User';
 import AuthController from './controllers/AuthController';
 import ApiController from './controllers/ApiController';
 import AnalysisController from './controllers/AnalysisController';
+import bodyParser from 'body-parser';
 
 const app = express();
 
 app.use(morgan('dev'));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 mongoose.connect(config.databases.mongodb.uri, err => {
   if (err) console.log(err);
@@ -38,7 +41,9 @@ passport.serializeUser((user, cb) => {
 });
 
 passport.deserializeUser((obj, cb) => {
-  cb(null, obj);
+  User.findOne({idTwitter: obj.id}, (err, user) => {
+    cb(err, user);
+  });
 });
 
 app.use(expressSession({ secret: config.server.session, resave: true, saveUninitialized: true }));

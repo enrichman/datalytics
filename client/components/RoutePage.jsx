@@ -11,7 +11,11 @@ class RoutePage extends React.Component {
 
   render() {
     return this.props.name === this.props.currentPage ? (
-      <div className="RoutePage">{this.props.page }</div>)
+      <div className="RoutePage">
+        <FluxComponent connectToStores={['datalytics']}>
+          {this.props.page}
+        </FluxComponent>
+      </div>)
       : null;
   }
 

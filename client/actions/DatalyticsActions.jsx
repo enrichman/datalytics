@@ -1,15 +1,53 @@
 import { Actions } from 'flummox';
-import $ from 'jquery';
+import request from 'request';
 
 class DatalyticsActions extends Actions {
 
-  getStatus() {
-    $.ajax({
-      url: '/api/v1/status',
-      success: data => { this.data = data },
-      async: false,
+  async getStatus() {
+    return await new Promise((resolve, reject) => {
+      request('http://datalytics.dev:3000/api/v1/status', (err, response, body) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(JSON.parse(body));
+        }
+      });
     });
-    return this.data;
+  }
+
+  async getMyAnalysis() {
+    return await new Promise((resolve, reject) => {
+      request('http://datalytics.dev:3000/api/v1/analysis', (err, response, body) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(JSON.parse(body));
+        }
+      });
+    });
+  }
+
+  async createNewAnalysis(analysis) {
+    const tmp = {
+      analysis: {
+        title: 'Apple',
+        keywords: 'iPhone, iPad',
+        created_at: new Date(),
+        from: new Date(),
+        to: new Date(),
+      },
+    };
+    return await new Promise((resolve, reject) => {
+      request.post('http://datalytics.dev:3000/api/v1/analysis',
+        {form: tmp}, (err, response, body) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(JSON.parse(body));
+          }
+        }
+      );
+    });
   }
 
   openPage(page) {

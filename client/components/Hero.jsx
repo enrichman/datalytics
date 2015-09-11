@@ -1,7 +1,4 @@
 import React from 'react';
-import mui from 'material-ui';
-import TwitterButton from './TwitterButton.jsx';
-import FluxComponent from 'flummox/component';
 
 class Hero extends React.Component {
 

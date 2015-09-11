@@ -1,35 +1,48 @@
 import express from 'express';
+import User from '../models/User';
+import Analysis from '../models/Analysis';
+import statusHandler from 'express-mongoose-status';
 
 class AnalysisController {
 
   constructor() {
     const router = express.Router();
     router.get('/', this.getAll);
-    router.get('/:id', this.getSingle);
+    router.get('/:_id', this.getSingle);
     router.post('/', this.createAnalysis);
-    router.delete('/:id', this.deleteAnalysis);
-    router.put('/:id', this.editAnalysis);
+    router.delete('/:_id', this.deleteAnalysis);
+    router.put('/:_id', this.editAnalysis);
     return router;
   }
 
   getAll(req, res) {
-    return res.send({});
+    Analysis.find({_creator: req.user._id}, (err, analysis) => {
+      statusHandler(err, res, analysis);
+    });
   }
 
   getSingle(req, res) {
-    return res.send({});
+    Analysis.findOne({_id: req._id}, (err, analysis) => {
+      statusHandler(err, res, analysis);
+    });
   }
 
   createAnalysis(req, res) {
-    return res.send({});
+    const analysis = new Analysis(req.body.analysis);
+    analysis._creator = req.user._id;
+    analysis.save(err => {
+      statusHandler(err, res, analysis);
+    });
   }
 
   deleteAnalysis(req, res) {
-    return res.send({});
+    Analysis.findOneAndRemove({_id: req.params._id}, (err, analysis) => {
+      statusHandler(err, res, analysis);
+    });
   }
 
   editAnalysis(req, res) {
-    return res.send({});
+    res.send({});
   }
 
 }

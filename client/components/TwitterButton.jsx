@@ -8,7 +8,8 @@ class TwitterButton extends React.Component {
   }
 
   getButton() {
-    if (this.props.logged) {
+    const props = this.props;
+    if (props.logged) {
       return {uri: '/api/v1/logout', text: 'logout'};
     }
     return {uri: '/api/v1/login', text: 'accedi con twitter'};
