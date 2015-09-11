@@ -1,5 +1,6 @@
 import { Actions } from 'flummox';
 import request from 'request';
+import moment from 'moment';
 
 class DatalyticsActions extends Actions {
 
@@ -28,18 +29,20 @@ class DatalyticsActions extends Actions {
   }
 
   async createNewAnalysis(analysis) {
-    const tmp = {
+    const now = new Date();
+    const from = moment(now).subtract(analysis.range, 'days').toDate();
+    const obj = {
       analysis: {
-        title: 'Apple',
-        keywords: 'iPhone, iPad',
+        title: analysis.title,
+        keywords: analysis.keywords.split(', '),
         created_at: new Date(),
-        from: new Date(),
-        to: new Date(),
+        from: from,
+        to: now,
       },
     };
     return await new Promise((resolve, reject) => {
       request.post('http://datalytics.dev:3000/api/v1/analysis',
-        {form: tmp}, (err, response, body) => {
+        {form: obj}, (err, response, body) => {
           if (err) {
             reject(err);
           } else {

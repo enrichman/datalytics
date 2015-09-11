@@ -18,12 +18,11 @@ const app = express();
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.set('view engine', 'jade');
 
 mongoose.connect(config.databases.mongodb.uri, err => {
   if (err) console.log(err);
 });
-
-app.use(express.static('public'));
 
 passport.use(new passportSocial.Strategy(config.twitter,
   (token, tokenSecret, profile, cb) => {
@@ -49,6 +48,8 @@ passport.deserializeUser((obj, cb) => {
 app.use(expressSession({ secret: config.server.session, resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(express.static('public'));
 
 app.use('/api/v1', new ApiController);
 app.use('/api/v1/analysis', new AnalysisController);
