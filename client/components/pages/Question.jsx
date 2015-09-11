@@ -1,7 +1,7 @@
 import React from 'react';
 import mui from 'material-ui';
 import FontAwesome from 'react-fontawesome';
-import FluxComponent from 'flummox/component';
+import FluxComponent from '../../../node_modules/flummox/component';
 
 class RouteQuestion extends React.Component {
 
@@ -10,11 +10,7 @@ class RouteQuestion extends React.Component {
   }
 
   render() {
-    return (
-      <div>
-        <h1>Assistenza</h1>
-      </div>
-    );
+    return (<div><h1>Assistenza</h1></div>);
   }
 
 }

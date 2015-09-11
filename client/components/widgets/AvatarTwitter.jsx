@@ -1,7 +1,7 @@
 import React from 'react';
-import mui from 'material-ui';
+import { Avatar } from 'material-ui';
 
-class Avatar extends React.Component {
+class AvatarTwitter extends React.Component {
 
   constructor(props) {
     super(props);
@@ -22,9 +22,9 @@ class Avatar extends React.Component {
       user = props.user;
     }
 
-    return user ? <mui.Avatar size="45" src={user.profile_image_url}/> : null;
+    return user ? <Avatar size="45" src={user.profile_image_url}/> : null;
   }
 
 }
 
-export default Avatar;
+export default AvatarTwitter;

@@ -1,7 +1,7 @@
 import React from 'react';
-import TwitterButton from './TwitterButton.jsx';
-import Toolbar from './Toolbar.jsx';
-import Hero from './Hero.jsx';
+import TwitterButton from './widgets/TwitterButton.jsx';
+import Toolbar from './widgets/Toolbar.jsx';
+import Hero from './pages/Hero.jsx';
 import Bacheca from './Bacheca.jsx';
 import FluxComponent from 'flummox/component';
 import * as mui from 'material-ui';
@@ -30,8 +30,6 @@ class Datalytics extends React.Component {
         <Toolbar />
         <FluxComponent connectToStores={['datalytics']}>
           <Hero />
-        </FluxComponent>
-        <FluxComponent connectToStores={['datalytics']}>
           <Bacheca />
         </FluxComponent>
       </div>

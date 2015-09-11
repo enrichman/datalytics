@@ -1,8 +1,8 @@
 import React from 'react';
 import mui from 'material-ui';
 import TwitterButton from './TwitterButton.jsx';
-import Avatar from './Avatar.jsx';
-import FluxComponent from 'flummox/component';
+import AvatarTwitter from './AvatarTwitter.jsx';
+import FluxComponent from '../../../node_modules/flummox/component';
 class Toolbar extends React.Component {
 
   constructor(props) {
@@ -14,7 +14,7 @@ class Toolbar extends React.Component {
       <div className="Toolbar">
         <div>
           <FluxComponent connectToStores={['datalytics']}>
-            <Avatar />
+            <AvatarTwitter />
           </FluxComponent>
         </div>
         <div>

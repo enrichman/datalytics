@@ -1,7 +1,7 @@
 import React from 'react';
-import mui from 'material-ui';
+import { List, ListItem, Avatar } from 'material-ui';
 
-class RouteMyAnalysis extends React.Component {
+class MyAnalysis extends React.Component {
 
   constructor(props) {
     super(props);
@@ -16,18 +16,18 @@ class RouteMyAnalysis extends React.Component {
     return (
       <div>
         <h1>Le mie analisi</h1>
-        <mui.List style={{width: '90%'}}>
-          {analysis.map(row => <mui.ListItem
-            leftAvatar={<mui.Avatar>{row.title.charAt(0).toUpperCase()}</mui.Avatar>}
+        <List style={{width: '90%'}}>
+          {analysis.map(row => <ListItem
+            leftAvatar={<Avatar>{row.title.charAt(0).toUpperCase()}</Avatar>}
             primaryText={row.title}
             secondaryText={<p>{row.keywords.join(', ')}</p>}
             secondaryTextLines={2} />
           )}
-        </mui.List>
+        </List>
       </div>
     );
   }
 
 }
 
-export default RouteMyAnalysis;
+export default MyAnalysis;

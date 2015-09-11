@@ -1,5 +1,5 @@
 import React from 'react';
-import mui from 'material-ui';
+import { RaisedButton } from 'material-ui';
 
 class TwitterButton extends React.Component {
 
@@ -19,7 +19,7 @@ class TwitterButton extends React.Component {
     const button = this.getButton();
     return (
       <div className="TwitterButton">
-        <mui.RaisedButton linkButton={true} href={button.uri} label={button.text} />
+        <RaisedButton linkButton={true} href={button.uri} label={button.text} />
       </div>
     );
   }

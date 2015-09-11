@@ -1,5 +1,5 @@
 import React from 'react';
-import mui from 'material-ui';
+import { TextField, RaisedButton, SelectField } from 'material-ui';
 
 class FormCreateAnalysis extends React.Component {
 
@@ -37,26 +37,26 @@ class FormCreateAnalysis extends React.Component {
     return (
       <form className="FormCreateAnalysis">
         <h2>Crea una nuova analisi</h2>
-        <mui.TextField
+        <TextField
           value={this.state.title}
           name="title"
           fullWidth={true}
           onChange={this.handleChange.bind(this)}
           hintText="Titolo analisi" />
-        <mui.TextField
+        <TextField
           value={this.state.keywords}
           name="keywords"
           fullWidth={true}
           onChange={this.handleChange.bind(this)}
           hintText="Keywords analisi" />
-        <mui.SelectField
+        <SelectField
           value={this.state.range}
           hintText="Range temporale"
           name="range"
           fullWidth={true}
           onChange={this.handleChangeRange.bind(this)}
           menuItems={[{text: 'Ultime 24 ore', payload: 1}, {text: 'Ultima settimana', payload: 7}, {text: 'Ultimo mese', payload: 30}]} />
-        <mui.RaisedButton onClick={this.handleClick.bind(this)} secondary={true} label="crea analisi" />
+        <RaisedButton onClick={this.handleClick.bind(this)} secondary={true} label="crea analisi" />
       </form>
     );
   }

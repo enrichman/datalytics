@@ -1,6 +1,6 @@
 import React from 'react';
 
-class RouteAnalysisDetails extends React.Component {
+class AnalysisDetails extends React.Component {
 
   constructor(props) {
     super(props);
@@ -12,4 +12,4 @@ class RouteAnalysisDetails extends React.Component {
 
 }
 
-export default RouteAnalysisDetails;
+export default AnalysisDetails;
