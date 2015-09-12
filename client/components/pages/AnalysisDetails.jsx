@@ -53,7 +53,6 @@ class AnalysisDetails extends React.Component {
 
   componentDidMount() {
     setInterval(() => {
-      console.log('ok');
       this.setState({date: this.shuffle(this.state.line)});
     }, 1000);
   }
@@ -87,14 +86,14 @@ class AnalysisDetails extends React.Component {
     return (
       <div>
         <h1>{props.currentAnalysis.title}</h1>
-        <div style={{width: '100%', float: 'left'}}>
-          <Line data={this.state.line} width="100%" height="250"  />
-        </div>
         <div style={{width: '50%', float: 'left'}}>
           <Radar data={this.state.line} width="100%" height="250"  />
         </div>
         <div style={{width: '50%', float: 'left'}}>
           <h2 style={{textAlign: 'center', paddingTop: '3em'}}>34<br />tweet pubblicati</h2>
+        </div>
+        <div style={{width: '100%', float: 'left'}}>
+          <Line data={this.state.line} width="100%" height="250"  />
         </div>
       </div>
     );

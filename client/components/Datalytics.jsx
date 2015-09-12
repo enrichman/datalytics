@@ -13,6 +13,13 @@ class Datalytics extends React.Component {
     this.props.flux.getActions('datalytics').getStatus();
   }
 
+  /**
+   * TODO socket and chart
+   */
+  componentDidMount() {
+    //this.props.socket.on('TWEET', tweet => {});
+  }
+
   getChildContext() {
     return { muiTheme: new mui.Styles.ThemeManager().getCurrentTheme() };
   }

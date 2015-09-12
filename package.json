@@ -44,7 +44,9 @@
     "react-grid-layout": "^0.8.5",
     "react-tap-event-plugin": "^0.1.7",
     "request": "^2.61.0",
-    "route-parser": "0.0.4"
+    "route-parser": "0.0.4",
+    "socketcluster": "^2.3.16",
+    "socketcluster-client": "^2.3.13"
   },
   "devDependencies": {
     "babel-runtime": "^5.8.20",
