@@ -10,18 +10,11 @@ class Datalytics extends React.Component {
 
   constructor(props) {
     super(props);
+    this.props.flux.getActions('datalytics').getStatus();
   }
 
   getChildContext() {
     return { muiTheme: new mui.Styles.ThemeManager().getCurrentTheme() };
-  }
-
-  componentWillMount() {
-    const props = this.props;
-    if (props !== null) {
-      props.flux.getActions('datalytics').getStatus();
-      props.flux.getActions('datalytics').getMyAnalysis();
-    }
   }
 
   render() {

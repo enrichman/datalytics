@@ -22,7 +22,7 @@ class AnalysisController {
   }
 
   getSingle(req, res) {
-    Analysis.findOne({_id: req._id}, (err, analysis) => {
+    Analysis.findOne({_id: req.params._id}, (err, analysis) => {
       statusHandler(err, res, analysis);
     });
   }

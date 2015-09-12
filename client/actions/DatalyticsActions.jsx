@@ -28,6 +28,18 @@ class DatalyticsActions extends Actions {
     });
   }
 
+  async getOneAnalysis(id) {
+    return await new Promise((resolve, reject) => {
+      request(`http://datalytics.dev:3000/api/v1/analysis/${id}`, (err, response, body) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(JSON.parse(body));
+        }
+      });
+    });
+  }
+
   async createNewAnalysis(analysis) {
     const now = new Date();
     const from = moment(now).subtract(analysis.range, 'days').toDate();

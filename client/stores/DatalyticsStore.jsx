@@ -6,18 +6,26 @@ class DatalyticsStore extends Store {
     super();
 
     const datalyticsActions = flux.getActionIds('datalytics');
-    this.register(datalyticsActions.getStatus, this.handleNewStatus);
-    this.register(datalyticsActions.getMyAnalysis, this.handleMyAnalysis);
+
+    this.registerAsync(datalyticsActions.getStatus, this.loading, this.handleNewStatus);
+    this.registerAsync(datalyticsActions.getMyAnalysis, this.loading, this.handleMyAnalysis);
+    this.registerAsync(datalyticsActions.createNewAnalysis, this.loading, this.handleCreationAnalysis);
+    this.registerAsync(datalyticsActions.getOneAnalysis, this.loading, this.handleOneAnalysis);
+
     this.register(datalyticsActions.openPage, this.handleNewPage);
-    this.register(datalyticsActions.createNewAnalysis, this.handleCreationAnalysis);
 
     this.state = {
-      logged: false,
+      logged: true,
       user: null,
-      currentPage: 'my_analysis',
       analysis: [],
+      currentAnalysis: {},
     };
   }
+
+  /**
+   * TODO: Una screen per il loading della pagina.
+   */
+  loading() {}
 
   handleNewStatus(content) {
     this.setState(content);
@@ -27,8 +35,11 @@ class DatalyticsStore extends Store {
     this.setState({analysis: analysis});
   }
 
+  handleOneAnalysis(currentAnalysis) {
+    this.setState({currentAnalysis: currentAnalysis});
+  }
+
   handleCreationAnalysis(analysis) {
-    console.log(analysis);
     this.setState({analysis: this.state.analysis.concat([analysis])});
   }
 

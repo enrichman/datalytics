@@ -8,6 +8,7 @@ class MyAnalysis extends React.Component {
 
   constructor(props) {
     super(props);
+    this.props.flux.getActions('datalytics').getMyAnalysis();
   }
 
   render() {
