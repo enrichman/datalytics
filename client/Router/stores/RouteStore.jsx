@@ -1,5 +1,4 @@
 import { Store } from 'flummox';
-import RouteParser from 'route-parser';
 
 class RouteStore extends Store {
 
@@ -10,17 +9,13 @@ class RouteStore extends Store {
     this.register(routeActions.openPage, this.handleNewRequest);
 
     const pathname = window.location.pathname;
-    const route = new RouteParser(pathname);
     this.state = {
-      location: {
-        pathname: pathname,
-        params: route.match('*'),
-      },
+      pathname: pathname,
     };
   }
 
-  handleNewRequest(path) {
-    this.setState({ location: {pathname: path}});
+  handleNewRequest(href) {
+    this.setState({pathname: href});
   }
 
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import mui from 'material-ui';
+import { ListItem } from 'material-ui';
 import FontAwesome from 'react-fontawesome';
 
 class MenuItem extends React.Component {
@@ -19,7 +19,7 @@ class MenuItem extends React.Component {
     }
 
     return (
-      <mui.ListItem
+      <ListItem
         leftIcon={<FontAwesome
         name={icon}
         size="lg"

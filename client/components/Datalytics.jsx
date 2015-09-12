@@ -27,8 +27,8 @@ class Datalytics extends React.Component {
   render() {
     return (
       <div className="Datalytics">
-        <Toolbar />
         <FluxComponent connectToStores={['datalytics']}>
+          <Toolbar />
           <Hero />
           <Bacheca />
         </FluxComponent>

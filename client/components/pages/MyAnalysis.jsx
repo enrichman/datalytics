@@ -1,5 +1,8 @@
 import React from 'react';
-import { List, ListItem, Avatar } from 'material-ui';
+import { Table, Button } from 'react-bootstrap';
+import moment from 'moment';
+import NavLink from './../../Router/components/NavLink.jsx';
+import FluxComponent from 'flummox/component';
 
 class MyAnalysis extends React.Component {
 
@@ -16,14 +19,32 @@ class MyAnalysis extends React.Component {
     return (
       <div>
         <h1>Le mie analisi</h1>
-        <List style={{width: '90%'}}>
-          {analysis.map(row => <ListItem
-            leftAvatar={<Avatar>{row.title.charAt(0).toUpperCase()}</Avatar>}
-            primaryText={row.title}
-            secondaryText={<p>{row.keywords.join(', ')}</p>}
-            secondaryTextLines={2} />
-          )}
-        </List>
+        <Table striped bordered condensed hover>
+          <thead>
+          <tr>
+            <th>Titolo</th>
+            <th>Keywords</th>
+            <th>Data inizio</th>
+            <th>Data fine</th>
+          </tr>
+          </thead>
+          <tbody>
+          {analysis.map(row => {
+            return (<tr>
+              <td>{row.title}</td>
+              <td><p>{row.keywords.join(', ')}</p></td>
+              <td><p>{moment(row.from).calendar()}</p></td>
+              <td><p>{moment(row.to).calendar()}</p></td>
+              <td>
+                <FluxComponent connectToStores={['route']}>
+                  <NavLink href={'/analysis/' + row._id}
+                     handler={<FluxComponent connectToStores={['datalytics', 'route']}><Button bsStyle="success">Visualizza</Button></FluxComponent>}/>
+                </FluxComponent>
+              </td>
+            </tr>);
+          })}
+          </tbody>
+        </Table>
       </div>
     );
   }

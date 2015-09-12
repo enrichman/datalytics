@@ -7,7 +7,11 @@ class AnalysisDetails extends React.Component {
   }
 
   render() {
-    return (<h1>Analysis</h1>);
+    let props;
+    if (this.props) {
+      props = this.props;
+    }
+    return (<h1>Analysis {props.params.id}</h1>);
   }
 
 }

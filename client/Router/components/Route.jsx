@@ -9,7 +9,10 @@ class Route extends React.Component {
 
   render() {
     const route = new RouteParser(this.props.path);
-    const match = route.match(this.props.location.pathname);
+    const match = route.match(this.props.pathname);
+    if (match) {
+      this.props.page.props.params = match;
+    }
     return match ? this.props.page : null;
   }
 

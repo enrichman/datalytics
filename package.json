@@ -39,6 +39,7 @@
     "passport": "^0.3.0",
     "passport-twitter": "^1.0.3",
     "react": "^0.13.3",
+    "react-bootstrap": "^0.25.1",
     "react-fontawesome": "^0.3.2",
     "react-grid-layout": "^0.8.5",
     "react-tap-event-plugin": "^0.1.7",
