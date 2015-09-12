@@ -16,8 +16,12 @@ class DatalyticsActions extends Actions {
     });
   }
 
-  async getMyAnalysis() {
+  async getMyAnalysis(analysis = []) {
     return await new Promise((resolve, reject) => {
+      if (analysis.length > 0) {
+        resolve(analysis);
+        exit;
+      }
       request('http://datalytics.dev:3000/api/v1/analysis', (err, response, body) => {
         if (err) {
           reject(err);
