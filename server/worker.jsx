@@ -11,9 +11,13 @@ import User from './models/User';
 import AuthController from './controllers/AuthController';
 import ApiController from './controllers/ApiController';
 import AnalysisController from './controllers/AnalysisController';
+import Analysis from './models/Analysis';
+
 import bodyParser from 'body-parser';
 
-import { TwitterStream } from './TwitterSDK';
+import { twitterStream } from './TwitterSDK';
+import _ from 'lodash';
+import test from './test';
 
 export const run = worker => {
   const app = express();
@@ -53,7 +57,7 @@ export const run = worker => {
   app.use(passport.session());
 
   app.use('/api/v1', new ApiController);
-  app.use('/api/v1/analysis', new AnalysisController);
+  app.use('/api/v1/analysis', new AnalysisController(twitterStream));
 
   app.use(express.static('public'));
   app.get(/.*/, (req, res) => {
@@ -66,9 +70,5 @@ export const run = worker => {
 
   // creates the socket server
   const scServer = worker.scServer;
-
-  // creates the twitter miner socket server
-  const twServer = new TwitterStream(scServer, config.twitterStream);
-  twServer.run();
 
 }

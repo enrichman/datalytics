@@ -1,13 +1,15 @@
-import TweetModel from './models/TweetModel';
-import ChannelModel from './models/ChannelModel';
 import TwitterClient from 'twitter-stream-channels';
 import async from 'async';
+import { EventEmitter } from 'events';
+import _ from 'lodash';
+import config from 'config';
 
-export default class TwitterStream {
+const singleton = Symbol();
 
-  constructor(scServer, credentials) {
-    this.scServer = scServer;
+class TwitterStream extends EventEmitter {
 
+  constructor(credentials) {
+    super();
     this.channels = {};
     this.connections = [];
     credentials.forEach(tokens => {
@@ -18,20 +20,13 @@ export default class TwitterStream {
         }, 1),
       });
     });
-
-    this.registerChannel('apple', ['apple']);
-    this.registerChannel('microsoft', ['microsoft']);
-    this.registerChannel('google', ['google']);
-    this.registerChannel('facebook', ['facebook']);
   }
 
-  /**
-   * Metodo richiamato alla ricezione di un nuovo tweet.
-   * @param channel
-   * @param tweet
-   */
-  onTweet(channel = '', tweet = {}) {
-    console.log(channel + ' >>> ');
+  static get instance() {
+    if(!this[singleton]) {
+      this[singleton] = new TwitterStream(config.twitterStream);
+    }
+    return this[singleton];
   }
 
   /**
@@ -46,7 +41,7 @@ export default class TwitterStream {
    * @param name
    * @param keywords
    */
-  registerChannel(name = '', keywords = []) {
+  registerChannels(channels) {
     let connection = this.connections[0];
 
     /**
@@ -63,7 +58,7 @@ export default class TwitterStream {
       if (this.stream) {
         this.stream.stop();
       }
-      this.channels[name] = keywords;
+      this.channels = _.merge(this.channels, channels);
       this.twitterClient = new TwitterClient(connection.tokens);
       this.stream = this.twitterClient.streamChannels({track: this.channels});
 
@@ -73,31 +68,12 @@ export default class TwitterStream {
       }
       arrayChannels.forEach(channel => {
         this.stream.on('channels/' + channel, tweet => {
-          this.onTweet(channel, tweet);
+          this.emit(channel, tweet);
         });
       });
     });
   }
 
-  /**
-   * TODO
-   */
-  run() {
-    return;
-  }
-
-  /**
-   * TODO
-   */
-  stop() {
-    return;
-  }
-
-  /**
-   * TODO: timeout 10s
-   */
-  reboot() {
-    return;
-  }
-
 }
+
+export default TwitterStream.instance;

@@ -1,5 +1,3 @@
-import TwitterStream from './TwitterStream';
-import TweetModel from './models/TweetModel';
-import ChannelModel from './models/ChannelModel';
+import twitterStream from './twitterStream';
 
-export { TwitterStream, TweetModel, ChannelModel };
+export { twitterStream };
