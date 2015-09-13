@@ -17,7 +17,9 @@ class Datalytics extends React.Component {
    * TODO socket and chart
    */
   componentDidMount() {
-    //this.props.socket.on('TWEET', tweet => {});
+    this.props.socket.on('TWEET', tweet => {
+      console.log(tweet);
+    });
   }
 
   getChildContext() {

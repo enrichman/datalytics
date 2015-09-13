@@ -13,6 +13,8 @@ import ApiController from './controllers/ApiController';
 import AnalysisController from './controllers/AnalysisController';
 import bodyParser from 'body-parser';
 
+import { TwitterStream } from './TwitterSDK';
+
 export const run = worker => {
   const app = express();
 
@@ -65,10 +67,14 @@ export const run = worker => {
   // creates the socket server
   const scServer = worker.scServer;
 
-  scServer.on('connection', socket => {
-    setInterval(() => {
-      socket.emit('TWEET', 'Il primo tweet.');
-    }, 1000);
-  });
+  // creates the twitter miner socket server
+  const options = {
+    consumer_key: config.twitter.consumerKey,
+    consumer_secret: config.twitter.consumerSecret,
+    access_token: config.twitter.accessToken,
+    access_token_secret: config.twitter.accessTokenSecret,
+  };
+  const twServer = new TwitterStream(scServer, options);
+  twServer.run();
 
 }
