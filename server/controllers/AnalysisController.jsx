@@ -1,7 +1,7 @@
 import express from 'express';
-import User from '../models/User';
 import Analysis from '../models/Analysis';
 import statusHandler from 'express-mongoose-status';
+import { twitterServices } from '../twitter-services';
 
 class AnalysisController {
 
@@ -31,6 +31,7 @@ class AnalysisController {
     const analysis = new Analysis(req.body.analysis);
     analysis._creator = req.user._id;
     analysis.save(err => {
+      twitterServices.getTwitterMiner().addAnalysis(analysis);
       statusHandler(err, res, analysis);
     });
   }

@@ -2,9 +2,7 @@ import TwitterClient from 'twitter-stream-channels';
 import async from 'async';
 import { EventEmitter } from 'events';
 import _ from 'lodash';
-import config from 'config';
 
-const singleton = Symbol();
 
 class TwitterStream extends EventEmitter {
 
@@ -20,13 +18,6 @@ class TwitterStream extends EventEmitter {
         }, 1),
       });
     });
-  }
-
-  static get instance() {
-    if(!this[singleton]) {
-      this[singleton] = new TwitterStream(config.twitterStream);
-    }
-    return this[singleton];
   }
 
   /**
@@ -68,7 +59,7 @@ class TwitterStream extends EventEmitter {
       }
       arrayChannels.forEach(channel => {
         this.stream.on('channels/' + channel, tweet => {
-          this.emit(channel, tweet);
+          this.emit(channel, tweet, channel);
         });
       });
     });
@@ -76,4 +67,4 @@ class TwitterStream extends EventEmitter {
 
 }
 
-export default TwitterStream.instance;
+export default TwitterStream;

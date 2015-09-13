@@ -8,16 +8,12 @@ import passportSocial from 'passport-twitter';
 import expressSession from 'express-session';
 import User from './models/User';
 
-import AuthController from './controllers/AuthController';
 import ApiController from './controllers/ApiController';
 import AnalysisController from './controllers/AnalysisController';
-import Analysis from './models/Analysis';
 
 import bodyParser from 'body-parser';
 
-import { twitterStream } from './TwitterSDK';
-import _ from 'lodash';
-import test from './test';
+import { twitterServices } from './twitter-services';
 
 export const run = worker => {
   const app = express();
@@ -57,7 +53,7 @@ export const run = worker => {
   app.use(passport.session());
 
   app.use('/api/v1', new ApiController);
-  app.use('/api/v1/analysis', new AnalysisController(twitterStream));
+  app.use('/api/v1/analysis', new AnalysisController);
 
   app.use(express.static('public'));
   app.get(/.*/, (req, res) => {
