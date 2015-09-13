@@ -53,11 +53,29 @@ export const run = worker => {
   app.use(passport.session());
 
   app.use('/api/v1', new ApiController);
-  app.use('/api/v1/analysis', new AnalysisController);
+  app.get('/api/v1/analysis', AnalysisController.getAll);
+  app.get('/api/v1/analysis/:_id', AnalysisController.getSingle);
+
+  app.post('/api/v1/analysis', AnalysisController.createAnalysis,
+    (req, res, next) => {
+      twitterServices.getTwitterMiner().addAnalysis(req.analysis);
+      res.send(req.analysis);
+    });
+
+  app.delete('/api/v1/analysis', AnalysisController.deleteAnalysis);
+  app.put('/api/v1/analysis', AnalysisController.editAnalysis);
 
   app.use(express.static('public'));
   app.get(/.*/, (req, res) => {
     res.sendfile('./public/index.html');
+  });
+
+  app.use((err, req, res, next) => {
+    if (req.xhr) {
+      res.status(500).send({ error: 'Something blew up!' });
+    } else {
+      next(err);
+    }
   });
 
   // creates the http server
@@ -66,5 +84,10 @@ export const run = worker => {
 
   // creates the socket server
   const scServer = worker.scServer;
+
+  twitterServices.getTwitterStream().on('tweet', (tweet, channel) => {
+    scServer.global.publish(channel, tweet);
+    scServer.global.publish(channel + ':ping', tweet);
+  });
 
 }

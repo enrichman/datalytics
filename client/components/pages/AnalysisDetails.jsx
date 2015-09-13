@@ -8,6 +8,7 @@ class AnalysisDetails extends React.Component {
     super(props);
     this.props.flux.getActions('datalytics').getOneAnalysis(props.params.id);
     this.state = {
+      counter: 0,
       radar: {
         labels: ['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Running'],
         datasets: [
@@ -52,9 +53,11 @@ class AnalysisDetails extends React.Component {
   }
 
   componentDidMount() {
-    setInterval(() => {
-      this.setState({date: this.shuffle(this.state.line)});
-    }, 1000);
+    const socket = this.props.socket;
+    const analysisChannel = socket.subscribe(this.props.params.id + ':ping');
+    analysisChannel.watch(tweet => {
+      this.setState({counter: this.state.counter + 1});
+    });
   }
 
   shuffle(data) {
@@ -90,7 +93,7 @@ class AnalysisDetails extends React.Component {
           <Radar data={this.state.line} width="100%" height="250"  />
         </div>
         <div style={{width: '50%', float: 'left'}}>
-          <h2 style={{textAlign: 'center', paddingTop: '3em'}}>34<br />tweet pubblicati</h2>
+          <h2 style={{textAlign: 'center', paddingTop: '3em'}}>{this.state.counter}<br />tweet pubblicati</h2>
         </div>
         <div style={{width: '100%', float: 'left'}}>
           <Line data={this.state.line} width="100%" height="250"  />

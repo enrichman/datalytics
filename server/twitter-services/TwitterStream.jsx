@@ -60,6 +60,7 @@ class TwitterStream extends EventEmitter {
       arrayChannels.forEach(channel => {
         this.stream.on('channels/' + channel, tweet => {
           this.emit(channel, tweet, channel);
+          this.emit('tweet', tweet, channel);
         });
       });
     });

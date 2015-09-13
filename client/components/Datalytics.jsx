@@ -13,15 +13,6 @@ class Datalytics extends React.Component {
     this.props.flux.getActions('datalytics').getStatus();
   }
 
-  /**
-   * TODO socket and chart
-   */
-  componentDidMount() {
-    this.props.socket.on('TWEET', tweet => {
-      console.log(tweet);
-    });
-  }
-
   getChildContext() {
     return { muiTheme: new mui.Styles.ThemeManager().getCurrentTheme() };
   }
@@ -32,7 +23,7 @@ class Datalytics extends React.Component {
         <FluxComponent connectToStores={['datalytics']}>
           <Toolbar />
           <Hero />
-          <Bacheca />
+          <Bacheca socket={this.props.socket} />
         </FluxComponent>
       </div>
     );

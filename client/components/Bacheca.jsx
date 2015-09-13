@@ -35,7 +35,7 @@ class Bacheca extends React.Component {
             <Route path="/bookmark" page={<FluxComponent connectToStores={['datalytics']}><Prefered /></FluxComponent>} />
             <Route path="/star/:id" page={<FluxComponent connectToStores={['datalytics']}><Popular /></FluxComponent>} />
             <Route path="/question" page={<FluxComponent connectToStores={['datalytics']}><Question /></FluxComponent>}/>
-            <Route path="/analysis/:id" page={<FluxComponent connectToStores={['datalytics', 'route']}><AnalysisDetails /></FluxComponent>}/>
+            <Route path="/analysis/:id" page={<FluxComponent socket={this.props.socket} connectToStores={['datalytics', 'route']}><AnalysisDetails /></FluxComponent>}/>
           </FluxComponent>
         </div>
         <div key={4} _grid={{x: 9, y: 2, w: 3, h: 4}}>

@@ -5,44 +5,42 @@ import { twitterServices } from '../twitter-services';
 
 class AnalysisController {
 
-  constructor() {
-    const router = express.Router();
-    router.get('/', this.getAll);
-    router.get('/:_id', this.getSingle);
-    router.post('/', this.createAnalysis);
-    router.delete('/:_id', this.deleteAnalysis);
-    router.put('/:_id', this.editAnalysis);
-    return router;
-  }
-
-  getAll(req, res) {
+  static getAll(req, res, next) {
     Analysis.find({_creator: req.user._id}, (err, analysis) => {
-      statusHandler(err, res, analysis);
+      if (err) next(err);
+
+      res.send(analysis);
     });
   }
 
-  getSingle(req, res) {
+  static getSingle(req, res, next) {
+    console.log(req.params._id);
     Analysis.findOne({_id: req.params._id}, (err, analysis) => {
-      statusHandler(err, res, analysis);
+      if (err) next(err);
+      req.analysis = analysis;
+      next();
     });
   }
 
-  createAnalysis(req, res) {
+  static createAnalysis(req, res, next) {
     const analysis = new Analysis(req.body.analysis);
     analysis._creator = req.user._id;
     analysis.save(err => {
-      twitterServices.getTwitterMiner().addAnalysis(analysis);
-      statusHandler(err, res, analysis);
+      if (err) next(err);
+      req.analysis = analysis;
+      next();
     });
   }
 
-  deleteAnalysis(req, res) {
+  static deleteAnalysis(req, res, next) {
     Analysis.findOneAndRemove({_id: req.params._id}, (err, analysis) => {
-      statusHandler(err, res, analysis);
+      if (err) next(err);
+
+      res.send(analysis);
     });
   }
 
-  editAnalysis(req, res) {
+  static editAnalysis(req, res, next) {
     res.send({});
   }
 
