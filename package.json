@@ -23,6 +23,7 @@
   "dependencies": {
     "async": "^1.4.2",
     "body-parser": "^1.13.3",
+    "chart.js": "^1.0.2",
     "config": "^1.16.0",
     "express": "^4.13.3",
     "express-mongoose-status": "0.0.3",
@@ -42,13 +43,15 @@
     "passport-twitter": "^1.0.3",
     "react": "^0.13.3",
     "react-bootstrap": "^0.25.1",
+    "react-chartjs": "^0.6.0",
     "react-fontawesome": "^0.3.2",
     "react-grid-layout": "^0.8.5",
     "react-tap-event-plugin": "^0.1.7",
     "request": "^2.61.0",
     "route-parser": "0.0.4",
     "socketcluster": "^2.3.16",
-    "socketcluster-client": "^2.3.13"
+    "socketcluster-client": "^2.3.13",
+    "twitter-stream-channels": "^0.2.4"
   },
   "devDependencies": {
     "babel-runtime": "^5.8.20",

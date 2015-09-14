@@ -1,5 +1,4 @@
 import React from 'react';
-import { Line } from 'react-chartjs';
 import CounterTwitter from '../widgets/CounterTwitter.jsx';
 import RadarChartTwitter from '../widgets/RadarChartTwitter.jsx';
 import LineChartTwitter from '../widgets/LineChartTwitter.jsx';
@@ -7,18 +6,15 @@ import LineChartTwitter from '../widgets/LineChartTwitter.jsx';
 class AnalysisDetails extends React.Component {
 
   static propTypes = {
-    params: {
-      id: React.PropTypes.object,
-    },
+    params: React.PropTypes.object,
+    flux: React.PropTypes.object,
+    socket: React.PropTypes.object,
     currentAnalysis: React.PropTypes.object,
-    buzzCounter: 0,
+    buzzCounter: React.PropTypes.number,
     data: React.PropTypes.object,
   };
 
   static defaultProps = {
-    params: {
-      id: null,
-    },
     currentAnalysis: null,
     buzzCounter: 0,
     data: {
@@ -40,8 +36,14 @@ class AnalysisDetails extends React.Component {
     if (this.props.params.id) {
       const socket = this.props.socket;
       const analysisChannel = socket.subscribe(this.props.params.id + ':ping');
-      analysisChannel.watch(() => { this.props.buzzCounter++; });
+      analysisChannel.watch(() => {
+        this.setState({buzzCounter: this.state.buzzCounter + 1});
+      });
     }
+  }
+
+  state = {
+    buzzCounter: this.props.buzzCounter,
   }
 
   render() {
@@ -49,7 +51,7 @@ class AnalysisDetails extends React.Component {
       <div>
         <h1>{this.props.currentAnalysis.title}</h1>
         <RadarChartTwitter data={this.props.data} />
-        <CounterTwitter counter={this.props.buzzCounter} />
+        <CounterTwitter counter={this.state.buzzCounter} />
         <LineChartTwitter data={this.props.data} />
       </div>
     );

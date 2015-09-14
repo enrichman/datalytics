@@ -17,8 +17,7 @@ class AnalysisController {
     console.log(req.params._id);
     Analysis.findOne({_id: req.params._id}, (err, analysis) => {
       if (err) next(err);
-      req.analysis = analysis;
-      next();
+      res.send(analysis);
     });
   }
 

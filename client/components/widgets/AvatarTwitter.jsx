@@ -3,26 +3,16 @@ import { Avatar } from 'material-ui';
 
 class AvatarTwitter extends React.Component {
 
+  static propTypes = {
+    user: React.PropTypes.object,
+  };
+
   constructor(props) {
     super(props);
   }
 
-  getUser() {
-    const props = this.props;
-    if (props !== null) {
-      return props.user;
-    }
-    return null;
-  }
-
   render() {
-    const props = this.props;
-    let user = null;
-    if (props !== null) {
-      user = props.user;
-    }
-
-    return user ? <Avatar size="45" src={user.profile_image_url}/> : null;
+    return this.props.user ? <Avatar size={45} src={this.props.user.profile_image_url}/> : null;
   }
 
 }

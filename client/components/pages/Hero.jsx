@@ -2,6 +2,10 @@ import React from 'react';
 
 class Hero extends React.Component {
 
+  static propTypes = {
+    logged: React.PropTypes.bool,
+  };
+
   constructor(props) {
     super(props);
   }
