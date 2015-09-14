@@ -1,103 +1,56 @@
 import React from 'react';
-import { Line, Radar } from 'react-chartjs';
-import ReactGridLayout from 'react-grid-layout';
+import { Line } from 'react-chartjs';
+import CounterTwitter from '../widgets/CounterTwitter.jsx';
+import RadarChartTwitter from '../widgets/RadarChartTwitter.jsx';
+import LineChartTwitter from '../widgets/LineChartTwitter.jsx';
 
 class AnalysisDetails extends React.Component {
+
+  static propTypes = {
+    params: {
+      id: React.PropTypes.object,
+    },
+    currentAnalysis: React.PropTypes.object,
+    buzzCounter: 0,
+    data: React.PropTypes.object,
+  };
+
+  static defaultProps = {
+    params: {
+      id: null,
+    },
+    currentAnalysis: null,
+    buzzCounter: 0,
+    data: {
+      labels: ['pizza', 'mandolino', 'pasta'],
+      datasets: [
+        {
+          data: [28, 48, 40],
+        },
+      ],
+    },
+  };
 
   constructor(props) {
     super(props);
     this.props.flux.getActions('datalytics').getOneAnalysis(props.params.id);
-    this.state = {
-      counter: 0,
-      radar: {
-        labels: ['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Running'],
-        datasets: [
-          {
-            label: 'My First dataset',
-            fillColor: 'rgba(220,220,220,0.2)',
-            strokeColor: 'rgba(220,220,220,1)',
-            pointColor: 'rgba(220,220,220,1)',
-            pointStrokeColor: '#fff',
-            pointHighlightFill: '#fff',
-            pointHighlightStroke: 'rgba(220,220,220,1)',
-            data: [65, 59, 90, 81, 56, 55, 40],
-          },
-          {
-            label: 'My Second dataset',
-            fillColor: 'rgba(151,187,205,0.2)',
-            strokeColor: 'rgba(151,187,205,1)',
-            pointColor: 'rgba(151,187,205,1)',
-            pointStrokeColor: '#fff',
-            pointHighlightFill: '#fff',
-            pointHighlightStroke: 'rgba(151,187,205,1)',
-            data: [28, 48, 40, 19, 96, 27, 100],
-          },
-        ],
-      },
-      line: {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-        datasets: [
-          {
-            label: 'My First dataset',
-            fillColor: 'rgba(220,220,220,0.2)',
-            strokeColor: 'rgba(220,220,220,1)',
-            pointColor: 'rgba(220,220,220,1)',
-            pointStrokeColor: '#fff',
-            pointHighlightFill: '#fff',
-            pointHighlightStroke: 'rgba(220,220,220,1)',
-            data: [65, 30, 80, 81, 56, 55, 40],
-          },
-        ],
-      },
-    };
   }
 
   componentDidMount() {
-    const socket = this.props.socket;
-    const analysisChannel = socket.subscribe(this.props.params.id + ':ping');
-    analysisChannel.watch(tweet => {
-      this.setState({counter: this.state.counter + 1});
-    });
-  }
-
-  shuffle(data) {
-    const array = data.datasets[0].data;
-    var currentIndex = array.length, temporaryValue, randomIndex;
-
-    // While there remain elements to shuffle...
-    while (0 !== currentIndex) {
-
-      // Pick a remaining element...
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
-
-      // And swap it with the current element.
-      temporaryValue = array[currentIndex];
-      array[currentIndex] = array[randomIndex];
-      array[randomIndex] = temporaryValue;
+    if (this.props.params.id) {
+      const socket = this.props.socket;
+      const analysisChannel = socket.subscribe(this.props.params.id + ':ping');
+      analysisChannel.watch(() => { this.props.buzzCounter++; });
     }
-
-    return array;
   }
 
   render() {
-    let props;
-    if (this.props) {
-      props = this.props;
-    }
-
     return (
       <div>
-        <h1>{props.currentAnalysis.title}</h1>
-        <div style={{width: '50%', float: 'left'}}>
-          <Radar data={this.state.line} width="100%" height="250"  />
-        </div>
-        <div style={{width: '50%', float: 'left'}}>
-          <h2 style={{textAlign: 'center', paddingTop: '3em'}}>{this.state.counter}<br />tweet pubblicati</h2>
-        </div>
-        <div style={{width: '100%', float: 'left'}}>
-          <Line data={this.state.line} width="100%" height="250"  />
-        </div>
+        <h1>{this.props.currentAnalysis.title}</h1>
+        <RadarChartTwitter data={this.props.data} />
+        <CounterTwitter counter={this.props.buzzCounter} />
+        <LineChartTwitter data={this.props.data} />
       </div>
     );
   }

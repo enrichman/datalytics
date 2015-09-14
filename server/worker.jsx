@@ -87,7 +87,7 @@ export const run = worker => {
 
   twitterServices.getTwitterStream().on('tweet', (tweet, channel) => {
     scServer.global.publish(channel, tweet);
-    scServer.global.publish(channel + ':ping', tweet);
+    scServer.global.publish(channel + ':ping', 'ping');
   });
 
 }
