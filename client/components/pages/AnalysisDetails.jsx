@@ -6,7 +6,9 @@ import LineChartTwitter from '../widgets/LineChartTwitter.jsx';
 class AnalysisDetails extends React.Component {
 
   static propTypes = {
-    params: React.PropTypes.object,
+    params: {
+      id: React.PropTypes.object,
+    },
     flux: React.PropTypes.object,
     socket: React.PropTypes.object,
     currentAnalysis: React.PropTypes.object,
@@ -30,16 +32,19 @@ class AnalysisDetails extends React.Component {
   constructor(props) {
     super(props);
     this.props.flux.getActions('datalytics').getOneAnalysis(props.params.id);
+    this.stream = props.socket.subscribe(this.props.params.id + ':ping');
   }
 
   componentDidMount() {
     if (this.props.params.id) {
-      const socket = this.props.socket;
-      const analysisChannel = socket.subscribe(this.props.params.id + ':ping');
-      analysisChannel.watch(() => {
+      this.stream.watch(() => {
         this.setState({buzzCounter: this.state.buzzCounter + 1});
       });
     }
+  }
+
+  componentWillUnmount() {
+    this.stream.unsubscribe(this.props.params.id + ':ping');
   }
 
   state = {
