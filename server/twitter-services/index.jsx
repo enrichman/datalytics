@@ -1,5 +1,5 @@
 import twitterServices from './twitterServices';
-import TwitterMiner from './TwitterMiner';
+import twitterMiner from './twitterMiner';
 import TwitterStream from './TwitterStream';
 
-export { twitterServices, TwitterStream, TwitterMiner };
+export { twitterServices, twitterMiner, TwitterStream };

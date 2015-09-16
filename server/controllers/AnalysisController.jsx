@@ -1,7 +1,4 @@
-import express from 'express';
 import Analysis from '../models/Analysis';
-import statusHandler from 'express-mongoose-status';
-import { twitterServices } from '../twitter-services';
 
 class AnalysisController {
 

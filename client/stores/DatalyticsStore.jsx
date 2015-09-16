@@ -11,6 +11,7 @@ class DatalyticsStore extends Store {
     this.registerAsync(datalyticsActions.getMyAnalysis, this.loading, this.handleMyAnalysis);
     this.registerAsync(datalyticsActions.createNewAnalysis, this.loading, this.handleCreationAnalysis);
     this.registerAsync(datalyticsActions.getOneAnalysis, this.loading, this.handleOneAnalysis);
+    this.registerAsync(datalyticsActions.getTimeSeries, this.loading, this.handleTimeSeries);
 
     this.register(datalyticsActions.openPage, this.handleNewPage);
 
@@ -19,6 +20,7 @@ class DatalyticsStore extends Store {
       user: null,
       analysis: [],
       currentAnalysis: {},
+      currentTimeSeries: {},
     };
   }
 
@@ -37,6 +39,10 @@ class DatalyticsStore extends Store {
 
   handleOneAnalysis(currentAnalysis) {
     this.setState({currentAnalysis: currentAnalysis});
+  }
+
+  handleTimeSeries(data) {
+    console.log(data);
   }
 
   handleCreationAnalysis(analysis) {

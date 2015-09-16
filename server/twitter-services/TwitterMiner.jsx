@@ -1,8 +1,8 @@
-import Analysis from './../models/Analysis';
 import { twitterServices } from './';
 import tweetSchema from './../schemas/tweetSchema';
 import mongoose from 'mongoose';
-import _ from 'lodash';
+import TimeSeries from 'redis-timeseries';
+import Redis from 'redis';
 
 class TwitterMiner {
 
@@ -11,31 +11,57 @@ class TwitterMiner {
    * per ogni keyword di ogni analisi.
    */
   constructor() {
-    this.channels = {};
-    Analysis.find({}, (err, data) => {
-      if (data.length > 0) {
-        data.forEach(analysis => {
-          this.addAnalysis(analysis, false);
-        });
-        twitterServices.getTwitterStream().registerChannels(this.channels);
-      }
+    this.redis = Redis.createClient();
+    this.ts = new TimeSeries(this.redis, 'timeseries');
+  }
+
+  start() {
+    twitterServices.getTwitterStream().then(twitterStream => {
+      twitterStream.on(/keyword\/.*/, (tweet, channel) => {
+        this._onKeyword(tweet, channel);
+      });
+      twitterStream.on(/analysis\/.*/, (tweet, channel) => {
+        this._onAnalysis(tweet, channel);
+      });
+      twitterStream.on(/.*/, (tweet, channel) => {
+        this._onAll(tweet, channel);
+      });
     });
   }
 
   /**
-   * Inserisce i channels relativi ad un'analisi in
-   * this.channels.
-   * @param analysis
+   * What do you want to mine when you receive an analysis or a keyword?
+   * @param tweet
+   * @param _id
+   * @private
    */
-  addAnalysis(analysis = {}, register = true) {
-    this.channels = _.merge(this.channels, {[analysis._id]: analysis.keywords});
-    twitterServices.getTwitterStream().on(analysis.id, this.saveTweet);
-    analysis.keywords.forEach(keyword => {
-      this.channels = _.merge(this.channels, {[keyword]: [keyword]});
-    });
-    if (register) {
-      twitterServices.getTwitterStream().registerChannels(this.channels);
-    }
+  _onAll(tweet, channel) {
+    this.ts.recordHit(channel).exec();
+  }
+
+  /**
+   * What do you want to mine when you receive a keyword?
+   * @param tweet
+   * @param keyword
+   * @private
+   */
+  _onKeyword(tweet, channel) {
+    const keyword = this._getIdByChannel(channel);
+  }
+
+  /**
+   * What do you want to mine when you receive an analysis?
+   * @param tweet
+   * @param _id
+   * @private
+   */
+  _onAnalysis(tweet, channel) {
+    const _id = this._getIdByChannel(channel);
+    this._saveTweet(tweet, _id);
+  }
+
+  _getIdByChannel(channel) {
+    return channel.match(/\/(.*?)$/)[1];
   }
 
   /**
@@ -43,7 +69,7 @@ class TwitterMiner {
    * @param tweet
    * @param idAnalysis
    */
-  saveTweet(tweet, idAnalysis) {
+  _saveTweet(tweet, idAnalysis) {
     const nameCollection = 'tweet/' + idAnalysis;
     const Tweet = mongoose.model(nameCollection, tweetSchema, nameCollection);
     const tweetEntity = new Tweet(tweet);
@@ -55,4 +81,4 @@ class TwitterMiner {
 
 }
 
-export default TwitterMiner;
+export default new TwitterMiner;

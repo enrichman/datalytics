@@ -12,15 +12,18 @@ class AnalysisDetails extends React.Component {
     flux: React.PropTypes.object,
     socket: React.PropTypes.object,
     currentAnalysis: React.PropTypes.object,
-    buzzCounter: React.PropTypes.number,
+    currentTimeSeries: React.PropTypes.object,
+    comments: React.PropTypes.number,
+    reach: React.PropTypes.number,
     data: React.PropTypes.object,
   };
 
   static defaultProps = {
     currentAnalysis: null,
-    buzzCounter: 0,
-    data: {
-      labels: ['pizza', 'mandolino', 'pasta'],
+    comments: 0,
+    reach: 0,
+    timeSeries: {
+      labels: ['ciao', 'mandolino', 'pasta'],
       datasets: [
         {
           data: [28, 48, 40],
@@ -32,13 +35,17 @@ class AnalysisDetails extends React.Component {
   constructor(props) {
     super(props);
     this.props.flux.getActions('datalytics').getOneAnalysis(props.params.id);
+    this.props.flux.getActions('datalytics').getTimeSeries({key: 'keyword/apple', granularity: '1second', period: 120});
     this.stream = props.socket.subscribe(this.props.params.id + ':ping');
   }
 
   componentDidMount() {
     if (this.props.params.id) {
-      this.stream.watch(() => {
-        this.setState({buzzCounter: this.state.buzzCounter + 1});
+      this.stream.watch(ping => {
+        this.setState({
+          comments: this.state.comments + ping.comment,
+          reach: this.state.reach + ping.reached,
+        });
       });
     }
   }
@@ -48,16 +55,19 @@ class AnalysisDetails extends React.Component {
   }
 
   state = {
-    buzzCounter: this.props.buzzCounter,
+    comments: this.props.comments,
+    reach: this.props.reach,
   }
 
   render() {
     return (
       <div>
         <h1>{this.props.currentAnalysis.title}</h1>
-        <RadarChartTwitter data={this.props.data} />
-        <CounterTwitter counter={this.state.buzzCounter} />
-        <LineChartTwitter data={this.props.data} />
+        <CounterTwitter background="#9ab459" message="commenti" counter={this.props.currentAnalysis.comments + this.state.comments} />
+        <CounterTwitter background="#57947f" message="utenti raggiunti" counter={this.props.currentAnalysis.reach + this.state.reach} />
+        <RadarChartTwitter data={this.props.timeSeries} />
+        <RadarChartTwitter data={this.props.timeSeries} />
+        <LineChartTwitter data={this.props.timeSeries} />
       </div>
     );
   }

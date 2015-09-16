@@ -1,31 +1,35 @@
 import React from 'react';
-import _ from 'lodash';
 
 class CounterTwitter extends React.Component {
 
   static propTypes = {
     message: React.PropTypes.string,
+    background: React.PropTypes.string,
     counter: React.PropTypes.number,
-    style: React.PropTypes.object,
     _style: React.PropTypes.object,
   }
 
   static defaultProps = {
     message: 'tweet pubblicati',
+    background: '#4f5592',
     counter: 0,
-    style: {},
     _style: {
       wrap: {
-        width: '50%',
+        width: '48%',
+        margin: '1%',
         float: 'left',
+        height: '125px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
       },
-      h2: {
+      h4: {
+        color: '#fff',
         textAlign: 'center',
-        paddingTop: '3em',
       },
       counter: {
+        fontSize: '2em',
         textAlign: 'center',
-        paddingTop: '3em',
       },
       message: {
         display: 'block',
@@ -38,13 +42,14 @@ class CounterTwitter extends React.Component {
   }
 
   render() {
-    const style = _.merge(this.props._style, this.props.style);
+    const style = this.props._style;
+    style.wrap.background = this.props.background;
     return (
       <div style={style.wrap}>
-        <h2 style={style.h2}>
+        <h4 style={style.h4}>
           <span style={style.counter}>{this.props.counter}</span>
           <span style={style.message}>{this.props.message}</span>
-        </h2>
+        </h4>
       </div>
     );
   }

@@ -40,17 +40,22 @@
     "npm": "^2.14.2",
     "passport": "^0.3.0",
     "passport-twitter": "^1.0.3",
+    "pattern-emitter": "^1.0.0",
+    "querystring": "^0.2.0",
     "react": "^0.13.3",
     "react-bootstrap": "^0.25.1",
     "react-chartjs": "^0.6.0",
     "react-fontawesome": "^0.3.2",
     "react-grid-layout": "^0.8.5",
     "react-tap-event-plugin": "^0.1.7",
+    "redis": "^0.12.1",
+    "redis-timeseries": "^0.4.0",
     "request": "^2.61.0",
     "route-parser": "0.0.4",
     "socketcluster": "^2.3.16",
     "socketcluster-client": "^2.3.13",
-    "twitter-stream-channels": "^0.2.4"
+    "twitter-stream-channels": "^0.2.4",
+    "wait.for": "^0.6.6"
   },
   "devDependencies": {
     "babel-runtime": "^5.8.20",

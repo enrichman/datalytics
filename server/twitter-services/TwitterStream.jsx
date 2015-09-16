@@ -1,69 +1,123 @@
+import EventEmitter from 'pattern-emitter';
 import TwitterClient from 'twitter-stream-channels';
 import async from 'async';
-import { EventEmitter } from 'events';
 import _ from 'lodash';
-
 
 class TwitterStream extends EventEmitter {
 
   constructor(credentials) {
     super();
+    this.stream = null;
     this.channels = {};
-    this.connections = [];
+    this.credentials = credentials;
+    this.connections = this._createConnections();
+  }
+
+  /**
+   * When an istance of TwitterStream is created, the constructor
+   * use this method to create the connections.
+   * @returns {Array}
+   */
+  _createConnections() {
+    const credentials = this.credentials;
+    const connections = [];
     credentials.forEach(tokens => {
-      this.connections.push({
+      connections.push({
         tokens: tokens,
         queue: async.queue((tasks, callback) => {
           setTimeout(callback, 10000 / credentials.length);
         }, 1),
       });
     });
+
+    return connections;
   }
 
   /**
-   * La registrazione di un nuovo channel comporta l'apertura
-   * di una nuova connessione con il client di Twitter.
-   * Twitter impone come tempo minimo tra l'apertura di una connessione
-   * ed un'altra 10 secondi. Per questo motivo la registrazione di un canale
-   * finisce in un array di code di funzioni definite nel costruttore. La coda
-   * che viene scelta come papabile per la connessione corrente è scelta in base
-   * a quella che risulta meno satura, ovvero con il minor numero
-   * di processi in coda.
-   * @param name
-   * @param keywords
+   * Push channels
+   * @param channelsToPush
    */
-  registerChannels(channels) {
-    let connection = this.connections[0];
-
-    /**
-     * Controllo quale sia la connessione
-     * con la coda meno satura.
-     */
-    this.connections.forEach(c => {
-      if (c.queue.length() < connection.queue.length()) {
-        connection = c;
-      }
-    });
-
+  pushChannels(channelsToPush) {
+    const connection = this._getLessUsedConnection();
     connection.queue.push({name: 'connection'}, err => {
-      if (this.stream) {
-        this.stream.stop();
-      }
-      this.channels = _.merge(this.channels, channels);
-      this.twitterClient = new TwitterClient(connection.tokens);
-      this.stream = this.twitterClient.streamChannels({track: this.channels});
+      if (err) throw err;
+      if (this.stream) this._stop();
+      this._setStream(connection.tokens, this._mergeChannels(channelsToPush));
+      const keyChannels = this._getKeyChannels();
 
-      const arrayChannels = [];
-      for (const nameChannel in this.channels) {
-        arrayChannels.push(nameChannel);
-      }
-      arrayChannels.forEach(channel => {
-        this.stream.on('channels/' + channel, tweet => {
-          this.emit(channel, tweet, channel);
-          this.emit('tweet', tweet, channel);
-        });
+      keyChannels.forEach(key => {
+        this._openChannel(key);
       });
     });
+  }
+
+  _openChannel(idChannel) {
+    this._getStream().on('channels/' + idChannel, tweet => {
+      this.emit(idChannel, tweet, idChannel);
+    });
+  }
+
+  /**
+   * Return the less used connection.
+   * @returns {*}
+   */
+  _getLessUsedConnection() {
+    const connections = this._getConnections();
+    let lessUsedConnection = connections[0];
+
+    connections.forEach(c => {
+      if (c.queue.length() < lessUsedConnection.queue.length()) {
+        lessUsedConnection = c;
+      }
+    });
+
+    return lessUsedConnection;
+  }
+
+  _getCredentials() {
+    return this.credentials;
+  }
+
+  _getConnections() {
+    return this.connections;
+  }
+
+  _getKeyChannels() {
+    const channels = this._getChannels();
+    return Object.keys(channels);
+  }
+
+  _getChannels() {
+    return this.channels;
+  }
+
+  _setChannels(channels) {
+    this.channels = channels;
+  }
+
+  _mergeChannels(channels) {
+    const result = _.merge(this._getChannels(), channels);
+    this._setChannels(result);
+    return this._getChannels();
+  }
+
+  _setTwitterClient(tokens) {
+    this.twitterClient = new TwitterClient(tokens);
+  }
+
+  _stop() {
+    this.stream.stop();
+  }
+
+  _getStream() {
+    return this.stream;
+  }
+
+  _setStream(tokens, channels) {
+    const twitterClient = new TwitterClient(tokens);
+    if (!_.isEmpty(channels)) {
+      this.stream = twitterClient.streamChannels({track: channels});
+    }
   }
 
 }

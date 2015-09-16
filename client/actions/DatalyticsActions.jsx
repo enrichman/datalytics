@@ -1,6 +1,7 @@
 import { Actions } from 'flummox';
 import request from 'request';
 import moment from 'moment';
+import qs from 'querystring';
 
 class DatalyticsActions extends Actions {
 
@@ -62,6 +63,21 @@ class DatalyticsActions extends Actions {
           if (err) {
             reject(err);
           } else {
+            resolve(JSON.parse(body));
+          }
+        }
+      );
+    });
+  }
+
+  async getTimeSeries(q) {
+    return await new Promise((resolve, reject) => {
+      request.get('http://datalytics.dev:3000/api/v1/timeseries?' + qs.stringify(q),
+        (err, response, body) => {
+          if (err) {
+            reject(err);
+          } else {
+            console.log(JSON.parse(body));
             resolve(JSON.parse(body));
           }
         }

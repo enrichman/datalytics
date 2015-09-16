@@ -10,15 +10,17 @@ import User from './models/User';
 
 import ApiController from './controllers/ApiController';
 import AnalysisController from './controllers/AnalysisController';
+import TimeSeriesController from './controllers/TimeSeriesController';
 
 import bodyParser from 'body-parser';
 
-import { twitterServices } from './twitter-services';
+import { twitterServices, twitterMiner } from './twitter-services';
+
 
 export const run = worker => {
   const app = express();
 
-  app.use(morgan('dev'));
+  //app.use(morgan('dev'));
   app.use(bodyParser.urlencoded({extended: true}));
   app.use(bodyParser.json());
   app.set('view engine', 'jade');
@@ -58,12 +60,15 @@ export const run = worker => {
 
   app.post('/api/v1/analysis', AnalysisController.createAnalysis,
     (req, res, next) => {
-      twitterServices.getTwitterMiner().addAnalysis(req.analysis);
+      twitterServices.pushAnalysis(req.analysis);
       res.send(req.analysis);
     });
 
   app.delete('/api/v1/analysis', AnalysisController.deleteAnalysis);
   app.put('/api/v1/analysis', AnalysisController.editAnalysis);
+
+  app.get('/api/v1/timeseries', TimeSeriesController.getTimeSeries);
+
 
   app.use(express.static('public'));
   app.get(/.*/, (req, res) => {
@@ -85,9 +90,13 @@ export const run = worker => {
   // creates the socket server
   const scServer = worker.scServer;
 
-  twitterServices.getTwitterStream().on('tweet', (tweet, channel) => {
-    scServer.global.publish(channel, tweet);
-    scServer.global.publish(channel + ':ping', 'ping');
-  });
+  twitterMiner.start();
 
+  twitterServices.getTwitterStream().then(twitterStream => {
+    twitterStream.on(/analysis\/.*/, (tweet, channel) => {
+      const id = channel.match(/\/(.*?)$/)[1];
+      scServer.global.publish(id, tweet);
+      scServer.global.publish(id + ':ping', {comment: 1, reached: tweet.user.followers_count});
+    });
+  });
 }

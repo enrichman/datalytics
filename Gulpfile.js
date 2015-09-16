@@ -41,7 +41,7 @@ var config = {
 gulp.task('server', function() {
   return gulp.src(config.server.src)
     .pipe(plumber())
-    .pipe(babel())
+    .pipe(babel({ optional: ['runtime']}))
     .pipe(gulp.dest(config.server.dest));
 });
 
