@@ -14,11 +14,8 @@ class FormCreateAnalysis extends React.Component {
   }
 
   handleClick() {
-    const props = this.props;
-    if (props !== null) {
-      this.setState({title: null, keywords: null, range: null});
-      props.flux.getActions('datalytics').createNewAnalysis(this.state);
-    }
+    this.setState({title: null, keywords: null, range: null});
+    this.props.flux.getActions('analysis').createNewAnalysis(this.state);
   }
 
   handleChangeRange(event) {

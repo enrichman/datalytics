@@ -10,6 +10,7 @@ import User from './models/User';
 
 import ApiController from './controllers/ApiController';
 import AnalysisController from './controllers/AnalysisController';
+import UserController from './controllers/UserController';
 import TimeSeriesController from './controllers/TimeSeriesController';
 
 import bodyParser from 'body-parser';
@@ -20,7 +21,7 @@ import { twitterServices, twitterMiner } from './twitter-services';
 export const run = worker => {
   const app = express();
 
-  //app.use(morgan('dev'));
+  app.use(morgan('dev'));
   app.use(bodyParser.urlencoded({extended: true}));
   app.use(bodyParser.json());
   app.set('view engine', 'jade');
@@ -55,7 +56,7 @@ export const run = worker => {
   app.use(passport.session());
 
   app.use('/api/v1', new ApiController);
-  app.get('/api/v1/analysis', AnalysisController.getAll);
+  app.get('/api/v1/user/:_id/analysis', UserController.getAllAnalysis);
   app.get('/api/v1/analysis/:_id', AnalysisController.getSingle);
 
   app.post('/api/v1/analysis', AnalysisController.createAnalysis,

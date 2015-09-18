@@ -12,7 +12,7 @@ class AvatarTwitter extends React.Component {
   }
 
   render() {
-    return this.props.user ? <Avatar size={45} src={this.props.user.profile_image_url}/> : null;
+    return this.props.logged ? <Avatar size={45} src={this.props.user.profile_image_url}/> : null;
   }
 
 }

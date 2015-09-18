@@ -48,6 +48,7 @@
     "react-fontawesome": "^0.3.2",
     "react-grid-layout": "^0.8.5",
     "react-tap-event-plugin": "^0.1.7",
+    "react-router": "1.0.0-rc1",
     "redis": "^0.12.1",
     "redis-timeseries": "^0.4.0",
     "request": "^2.61.0",

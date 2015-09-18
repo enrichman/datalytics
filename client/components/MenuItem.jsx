@@ -9,22 +9,7 @@ class MenuItem extends React.Component {
   }
 
   render() {
-    const props = this.props;
-    let icon;
-    let text;
-
-    if (props !== null) {
-      icon = props.icon;
-      text = props.text;
-    }
-
-    return (
-      <ListItem
-        leftIcon={<FontAwesome
-        name={icon}
-        size="lg"
-      />} primaryText={text} />
-    );
+    return (<ListItem disabled={true} leftIcon={<FontAwesome name={this.props.icon} size="lg" />} primaryText={this.props.text} />);
   }
 
 }
