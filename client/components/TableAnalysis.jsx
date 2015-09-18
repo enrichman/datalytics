@@ -17,8 +17,7 @@ class TableAnalysis extends React.Component {
         <tr>
           <th>Titolo</th>
           <th>Keywords</th>
-          <th>Data inizio</th>
-          <th>Data fine</th>
+          <th>Data creazione</th>
         </tr>
         </thead>
         <tbody>
@@ -27,8 +26,7 @@ class TableAnalysis extends React.Component {
             <tr key={row._id}>
               <td>{row.title}</td>
               <td><p>{row.keywords.join(', ')}</p></td>
-              <td><p>{moment(row.from).calendar()}</p></td>
-              <td><p>{moment(row.to).calendar()}</p></td>
+              <td><p>{moment(row.created_at).calendar()}</p></td>
               <td>
                 <Link to={'/analysis/' + row._id}>
                   <Button bsStyle="success">Visualizza</Button>

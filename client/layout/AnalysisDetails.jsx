@@ -2,16 +2,11 @@ import React from 'react';
 import ReactGridLayout from 'react-grid-layout';
 import { Menu, FormCreateAnalysis, CounterTwitter } from './../components/index.jsx';
 import FluxComponent from 'flummox/component';
-import _ from'lodash';
 
 class AnalysisDetails extends React.Component {
 
   constructor(props) {
     super(props);
-  }
-
-  componentWillMount() {
-
   }
 
   render() {

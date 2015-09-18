@@ -1,6 +1,5 @@
 import { Actions } from 'flummox';
 import request from 'request';
-import moment from 'moment';
 
 class AnalysisActions extends Actions {
 
@@ -22,14 +21,11 @@ class AnalysisActions extends Actions {
 
   async createNewAnalysis(analysis) {
     const now = new Date();
-    const from = moment(now).subtract(analysis.range, 'days').toDate();
     const obj = {
       analysis: {
         title: analysis.title,
         keywords: analysis.keywords.split(', '),
         created_at: new Date(),
-        from: from,
-        to: now,
       },
     };
     return await new Promise((resolve, reject) => {
