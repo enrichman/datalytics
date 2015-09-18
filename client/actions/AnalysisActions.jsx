@@ -19,8 +19,20 @@ class AnalysisActions extends Actions {
     });
   }
 
+  async getAnalysis(idAnalysis) {
+    return await new Promise((resolve, reject) => {
+      request(`http://datalytics.dev:3000/api/v1/analysis/${idAnalysis}`, (err, response, body) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(JSON.parse(body));
+        }
+      });
+    });
+  }
+
+
   async createNewAnalysis(analysis) {
-    const now = new Date();
     const obj = {
       analysis: {
         title: analysis.title,

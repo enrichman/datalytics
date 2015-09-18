@@ -9,8 +9,9 @@ class AnalysisStore extends Store  {
 
     flux.getActions('analysis').getAllAnalysisByUserID('a');
 
-    this.registerAsync(analysisAction.getAllAnalysisByUserID, () => {},  this.handleAllUserAnalysis);
-    this.registerAsync(analysisAction.createNewAnalysis, () => {}, this.handleCreationAnalysis);
+    this.register(analysisAction.getAllAnalysisByUserID,  this.handleAllUserAnalysis);
+    this.register(analysisAction.getAnalysis, this.handleSingleAnalysis);
+    this.register(analysisAction.createNewAnalysis, this.handleCreationAnalysis);
 
     this.state = {
       usersAnalysis: [],
@@ -19,6 +20,10 @@ class AnalysisStore extends Store  {
 
   handleAllUserAnalysis(data) {
     this.setState({usersAnalysis: data});
+  }
+
+  handleSingleAnalysis(analysis) {
+    this.setState({usersAnalysis: this.state.usersAnalysis.concat([analysis])});
   }
 
   handleCreationAnalysis(analysis) {

@@ -1,6 +1,6 @@
 import { Flux } from 'flummox';
-import { AuthActions, AnalysisActions, SocketActions } from './actions/index.jsx';
-import { AuthStore, AnalysisStore, SocketStore } from './stores/index.jsx';
+import { AuthActions, AnalysisActions, SocketActions, TimeSeriesActions } from './actions/index.jsx';
+import { AuthStore, AnalysisStore, SocketStore, TimeSeriesStore } from './stores/index.jsx';
 
 class AppFlux extends Flux {
 
@@ -14,6 +14,9 @@ class AppFlux extends Flux {
 
     this.createActions('analysis', AnalysisActions);
     this.createStore('analysis', AnalysisStore, this);
+
+    this.createActions('timeSeries', TimeSeriesActions);
+    this.createStore('timeSeries', TimeSeriesStore, this);
   }
 
 }

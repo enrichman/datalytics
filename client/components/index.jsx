@@ -8,6 +8,7 @@ import Toolbar from './Toolbar.jsx';
 import TwitterButton from './TwitterButton.jsx';
 import FormCreateAnalysis from './FormCreateAnalysis.jsx';
 import TableAnalysis from './TableAnalysis.jsx';
+import TimeSeriesChart from './TimeSeriesChart.jsx';
 
 export {
   AvatarTwitter,
@@ -20,4 +21,5 @@ export {
   TwitterButton,
   FormCreateAnalysis,
   TableAnalysis,
+  TimeSeriesChart,
 };

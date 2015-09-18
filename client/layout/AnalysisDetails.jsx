@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactGridLayout from 'react-grid-layout';
-import { Menu, FormCreateAnalysis, CounterTwitter } from './../components/index.jsx';
+import { Menu, FormCreateAnalysis, CounterTwitter, TimeSeriesChart } from './../components/index.jsx';
 import FluxComponent from 'flummox/component';
 
 class AnalysisDetails extends React.Component {
@@ -21,7 +21,10 @@ class AnalysisDetails extends React.Component {
             <h1>Dettagli</h1>
             <FluxComponent connectToStores={['socket', 'analysis']}>
               <CounterTwitter type="comment" channel={id} />
-              <CounterTwitter type="reached" channel={id} message="persone raggiunge" />
+              <CounterTwitter type="reached" channel={id} message="persone raggiunte" />
+            </FluxComponent>
+            <FluxComponent connectToStores={['socket', 'analysis', 'timeSeries']}>
+              <TimeSeriesChart title="" idAnalysis={id} type="linea" granularity="1minute" period={30} />
             </FluxComponent>
           </div>
         </div>
