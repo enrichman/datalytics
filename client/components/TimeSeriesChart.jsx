@@ -75,7 +75,6 @@ class TimeSeriesChart extends React.Component {
   }
 
   render() {
-
     const series = this.getTimeSeries();
     const config = _.merge(this.props._config, this.props.config);
     config.series = this.getTimeSeries();

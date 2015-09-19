@@ -17,9 +17,10 @@ class AnalysisDetails extends React.Component {
         <div key={1} _grid={{x: 0, y: 0, w: 2, h: 4}}>
           <Menu />
         </div>
-        <div className="RoutePage" key={2} _grid={{x: 2, y: 0, w: 7, h: 3}}>
+        <div className="RoutePage" key={2} _grid={{x: 2, y: 0, w: 10, h: 3}}>
           <div>
             <h1>Dettagli</h1>
+
             <FluxComponent connectToStores={['socket', 'analysis']}>
               <CounterTwitter type="comment" channel={id} />
               <CounterTwitter type="reached" channel={id} message="persone raggiunte" />
@@ -33,12 +34,13 @@ class AnalysisDetails extends React.Component {
                   xAxis: {
                     labels: {
                       formatter: function() {
-                        return moment(this.value * 1000).format('HH:mm');
+                        return moment(this.value * 1000).format('HH:mm:ss');
                       },
                     },
                   },
                 }}
                 query={{
+                  analysis: 'timeseries',
                   key: id,
                   type: 'area',
                   granularity: '1second',
@@ -62,18 +64,81 @@ class AnalysisDetails extends React.Component {
                   },
                 }}
                 query={{
+                  analysis: 'timeseries',
                   key: id,
+                  type: 'area',
                   granularity: '1minute',
                   period: 60,
                 }}
               />
             </FluxComponent>
+
+            <FluxComponent connectToStores={['socket', 'analysis', 'timeSeries']}>
+              <TimeSeriesChart
+                _config={{
+                  chart: {
+                    type: 'scatter',
+                    zoomType: 'xy',
+                  },
+                  title: {
+                    text: 'Analisi sentiment/volume dell\'ultimo minuto',
+                  },
+                  yAxis: {
+                    title: {
+                      text: 'Sentiment',
+                    },
+                  },
+                  plotOptions: {
+                    scatter: {
+                      tooltip: {
+                        headerFormat: '<b>{series.name}</b><br>',
+                        pointFormat: '{point.x} tweet, {point.y} sentiment',
+                      },
+                    },
+                  },
+                }}
+                query={{
+                  analysis: 'sentiment',
+                  key: id,
+                  granularity: '1minute',
+                  period: 1,
+                }}
+                />
+            </FluxComponent>
+
+            <FluxComponent connectToStores={['socket', 'analysis', 'timeSeries']}>
+              <TimeSeriesChart
+                _config={{
+                  chart: {
+                    type: 'scatter',
+                    zoomType: 'xy',
+                  },
+                  title: {
+                    text: 'Analisi sentiment/volume di oggi',
+                  },
+                  yAxis: {
+                    title: {
+                      text: 'Sentiment',
+                    },
+                  },
+                  plotOptions: {
+                    scatter: {
+                      tooltip: {
+                        headerFormat: '<b>{series.name}</b><br>',
+                        pointFormat: '{point.x} tweet, {point.y} sentiment',
+                      },
+                    },
+                  },
+                }}
+                query={{
+                  analysis: 'sentiment',
+                  key: id,
+                  granularity: '1day',
+                  period: 1,
+                }}
+                />
+            </FluxComponent>
           </div>
-        </div>
-        <div key={4} _grid={{x: 9, y: 2, w: 3, h: 4}}>
-          <FluxComponent>
-            <FormCreateAnalysis />
-          </FluxComponent>
         </div>
       </ReactGridLayout>
     );

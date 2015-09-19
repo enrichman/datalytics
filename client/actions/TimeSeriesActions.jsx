@@ -7,7 +7,9 @@ class TimeSeriesActions extends Actions {
 
   async getTimeSeries(query) {
     return await new Promise((resolve, reject) => {
-      request('http://datalytics.dev:3000/api/v1/timeseries?' + qs.stringify(query), (err, response, body) => {
+      const analysis = query.analysis;
+      delete query.analysis;
+      request('http://datalytics.dev:3000/api/v1/' + analysis + '?' + qs.stringify(query), (err, response, body) => {
         if (err) {
           reject(err);
         } else {

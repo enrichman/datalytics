@@ -31,7 +31,7 @@ class TwitterMiner {
     const timestamp = Date.now() / 1000 | 0;
     TimeSeries.recordHit(channel);
     sentiment(tweet.text, null, (e, data) => {
-      TimeSeriesSentiment.addSentiment(channel, timestamp, data.comparative);
+      TimeSeriesSentiment.addSentiment(channel, timestamp, data.score);
     });
   }
 

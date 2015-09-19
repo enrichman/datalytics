@@ -31,9 +31,9 @@ class TimeSeriesSentiment {
   });
 
   static addSentiment(channel, timestamp, value) {
-    if (value > 0) {
+    if (value > 0 && value !== 0) {
       TimeSeriesSentiment.timeSeriesRedis.recordHit(channel, timestamp, Math.abs(value)).exec();
-    } else {
+    } else if (value < 0) {
       TimeSeriesSentiment.timeSeriesRedis.removeHit(channel, timestamp, Math.abs(value)).exec();
     }
   }

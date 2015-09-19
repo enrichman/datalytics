@@ -1,5 +1,6 @@
 import Analysis from '../models/Analysis';
 import TimeSeriesSentiment from '../models/TimeSeriesSentiment';
+import TimeSeries from '../models/TimeSeries';
 import async from 'async';
 
 class TimeSeriesSentimentController {
@@ -12,9 +13,17 @@ class TimeSeriesSentimentController {
       keywords.forEach(keyword => {
         queries.push((cb) => {
           TimeSeriesSentiment.getHitsByChannel('keyword/' + keyword, req.query.granularity, req.query.period,
-            (e, timeseries) => {
+            (e, timeseriesSentiment) => {
               if (e) console.log(e);
-              cb(null, {name: keyword, type: req.query.type || 'area',  data: timeseries});
+              TimeSeries.getHitsByChannel('keyword/' + keyword, req.query.granularity, req.query.period,
+                (e, timeseries) => {
+                  if (e) console.log(e);
+                  timeseriesSentiment.forEach((row, index) => {
+                    timeseriesSentiment[index][0] = timeseries[index][1];
+                    timeseriesSentiment[index][1] = (timeseriesSentiment[index][1] / timeseries[index][1]) || 0;
+                  });
+                  cb(null, {name: keyword, data: timeseriesSentiment });
+                });
             });
         });
       });
