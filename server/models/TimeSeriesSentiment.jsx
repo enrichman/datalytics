@@ -30,8 +30,12 @@ class TimeSeriesSentiment {
     },
   });
 
-  static recordHit(channel) {
-    TimeSeriesSentiment.timeSeriesRedis.recordHit(channel).exec();
+  static addSentiment(channel, timestamp, value) {
+    if (value > 0) {
+      TimeSeriesSentiment.timeSeriesRedis.recordHit(channel, timestamp, Math.abs(value)).exec();
+    } else {
+      TimeSeriesSentiment.timeSeriesRedis.removeHit(channel, timestamp, Math.abs(value)).exec();
+    }
   }
 
   static getHitsByChannel(channel, granularity, period, cb) {

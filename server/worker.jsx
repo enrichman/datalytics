@@ -12,6 +12,7 @@ import ApiController from './controllers/ApiController';
 import AnalysisController from './controllers/AnalysisController';
 import UserController from './controllers/UserController';
 import TimeSeriesController from './controllers/TimeSeriesController';
+import TimeSeriesSentimentController from './controllers/TimeSeriesSentimentController';
 
 import bodyParser from 'body-parser';
 
@@ -69,6 +70,7 @@ export const run = worker => {
   app.put('/api/v1/analysis', AnalysisController.editAnalysis);
 
   app.get('/api/v1/timeseries', TimeSeriesController.getTimeSeries);
+  app.get('/api/v1/sentiment', TimeSeriesSentimentController.getTimeSeries);
 
 
   app.use(express.static('public'));
