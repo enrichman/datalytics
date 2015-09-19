@@ -24,7 +24,7 @@ class AnalysisDetails extends React.Component {
               <CounterTwitter type="reached" channel={id} message="persone raggiunte" />
             </FluxComponent>
             <FluxComponent connectToStores={['socket', 'analysis', 'timeSeries']}>
-              <TimeSeriesChart title="" idAnalysis={id} type="linea" granularity="1minute" period={30} />
+              <TimeSeriesChart title="" format="HH:mm" idAnalysis={id} type="linea" granularity="1minute" period={60} />
             </FluxComponent>
           </div>
         </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import Highcharts from 'react-highcharts';
 import _ from 'lodash';
+import moment from 'moment';
 
 class TimeSeriesChart extends React.Component {
 
@@ -17,7 +18,7 @@ class TimeSeriesChart extends React.Component {
   }
 
   render() {
-    console.log(this.props.currentTimeSeries);
+    const format = this.props.format;
     const series = this.props.currentTimeSeries;
     const config = {
       title: {
@@ -25,6 +26,12 @@ class TimeSeriesChart extends React.Component {
       },
       xAxis: {
         type: 'datetime',
+        labels: {
+          rotation: -45,
+          formatter: function() {
+            return moment(this.value*1000).format(format);
+          },
+        },
       },
       yAxis: {
         title: {
@@ -32,7 +39,7 @@ class TimeSeriesChart extends React.Component {
         },
         plotLines: [{
           value: 0,
-          width: 1,
+          width: 0,
           color: '#808080',
         }],
       },
@@ -40,9 +47,9 @@ class TimeSeriesChart extends React.Component {
         valueSuffix: 'tweet',
       },
       legend: {
-        layout: 'vertical',
-        align: 'right',
-        verticalAlign: 'middle',
+        layout: 'horizontal',
+        align: 'left',
+        verticalAlign: 'top',
         borderWidth: 0,
       },
       series: series,

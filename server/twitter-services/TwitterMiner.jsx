@@ -1,19 +1,10 @@
 import { twitterServices } from './';
 import tweetSchema from './../schemas/tweetSchema';
 import mongoose from 'mongoose';
-import TimeSeries from 'redis-timeseries';
-import Redis from 'redis';
+import TimeSeries from './../models/TimeSeries';
+
 
 class TwitterMiner {
-
-  /**
-   * Apro un channel per ogni analisi e
-   * per ogni keyword di ogni analisi.
-   */
-  constructor() {
-    this.redis = Redis.createClient();
-    this.ts = new TimeSeries(this.redis, 'timeseries');
-  }
 
   start() {
     twitterServices.getTwitterStream().then(twitterStream => {
@@ -36,7 +27,7 @@ class TwitterMiner {
    * @private
    */
   _onAll(tweet, channel) {
-    this.ts.recordHit(channel).exec();
+    TimeSeries.recordHit(channel);
   }
 
   /**
