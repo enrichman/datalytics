@@ -2,6 +2,7 @@ import React from 'react';
 import ReactGridLayout from 'react-grid-layout';
 import { Menu, FormCreateAnalysis, CounterTwitter, TimeSeriesChart } from './../components/index.jsx';
 import FluxComponent from 'flummox/component';
+import moment from 'moment';
 
 class AnalysisDetails extends React.Component {
 
@@ -24,10 +25,48 @@ class AnalysisDetails extends React.Component {
               <CounterTwitter type="reached" channel={id} message="persone raggiunte" />
             </FluxComponent>
             <FluxComponent connectToStores={['socket', 'analysis', 'timeSeries']}>
-              <TimeSeriesChart title="Ultimo minuto" format="HH:mm" idAnalysis={id} type="linea" granularity="1second" period={60} />
+              <TimeSeriesChart
+                config={{
+                  title: {
+                    text: 'Ultimo minuto',
+                  },
+                  xAxis: {
+                    labels: {
+                      formatter: function() {
+                        return moment(this.value * 1000).format('HH:mm');
+                      },
+                    },
+                  },
+                }}
+                query={{
+                  key: id,
+                  type: 'area',
+                  granularity: '1second',
+                  period: 60,
+                }}
+              />
             </FluxComponent>
+
             <FluxComponent connectToStores={['socket', 'analysis', 'timeSeries']}>
-              <TimeSeriesChart title="Ultima ora" format="HH:mm" idAnalysis={id} type="linea" granularity="1minute" period={60} />
+              <TimeSeriesChart
+                config={{
+                  title: {
+                    text: 'Ultima ora',
+                  },
+                  xAxis: {
+                    labels: {
+                      formatter: function() {
+                        return moment(this.value * 1000).format('HH:mm');
+                      },
+                    },
+                  },
+                }}
+                query={{
+                  key: id,
+                  granularity: '1minute',
+                  period: 60,
+                }}
+              />
             </FluxComponent>
           </div>
         </div>

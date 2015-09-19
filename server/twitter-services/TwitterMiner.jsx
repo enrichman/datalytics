@@ -2,7 +2,8 @@ import { twitterServices } from './';
 import tweetSchema from './../schemas/tweetSchema';
 import mongoose from 'mongoose';
 import TimeSeries from './../models/TimeSeries';
-
+import TimeSeriesSentiment from './../models/TimeSeriesSentiment';
+import sentiment from 'sentiment';
 
 class TwitterMiner {
 
@@ -27,7 +28,11 @@ class TwitterMiner {
    * @private
    */
   _onAll(tweet, channel) {
+    const timestamp = Date.now() / 1000 | 0;
     TimeSeries.recordHit(channel);
+    sentiment(tweet.text, null, (e, data) => {
+      TimeSeriesSentiment.recordHit(channel, timestamp, data.comparative);
+    });
   }
 
   /**

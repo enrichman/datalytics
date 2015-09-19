@@ -6,34 +6,32 @@ import md5 from 'md5';
 
 class TimeSeriesChart extends React.Component {
 
-  constructor(props) {
-    super(props);
-  }
+  static propTypes = {
+    flux: React.PropTypes.object,
+    query: React.PropTypes.object,
+    currentTimeSeries: React.PropTypes.array,
+  };
 
-  componentWillMount() {
-    this.props.flux.getActions('timeSeries').getTimeSeries({
-      key: this.props.idAnalysis,
-      granularity: this.props.granularity,
-      period: this.props.period,
-    });
-  }
-
-  render() {
-    const format = this.props.format;
-    const series = this.props.currentTimeSeries[md5(JSON.stringify({key: this.props.idAnalysis, granularity: this.props.granularity, period: this.props.period}))];
-    const config = {
+  static defaultProps = {
+    _config: {
       chart: {
         type: 'area',
       },
       title: {
-        text: this.props.title,
+        text: 'Title of chart',
+      },
+      credits: {
+        enabled: false,
+      },
+      exporting: {
+        enabled: true,
       },
       xAxis: {
         type: 'datetime',
         labels: {
           rotation: -45,
           formatter: function() {
-            return moment(this.value*1000).format(format);
+            return moment(this.value * 1000).format('HH:mm');
           },
         },
       },
@@ -51,13 +49,36 @@ class TimeSeriesChart extends React.Component {
         valueSuffix: 'tweet',
       },
       legend: {
-        layout: 'horizontal',
-        align: 'left',
+        layout: 'vertical',
+        align: 'right',
         verticalAlign: 'top',
         borderWidth: 0,
       },
-      series: series,
-    };
+      series: [],
+    },
+  }
+
+    constructor(props) {
+      super(props);
+    }
+
+  componentWillMount() {
+    this.props.flux.getActions('timeSeries').getTimeSeries(this.props.query);
+  }
+
+  getIdChart() {
+    return md5(JSON.stringify(this.props.query));
+  }
+
+  getTimeSeries() {
+    return this.props.currentTimeSeries[this.getIdChart()];
+  }
+
+  render() {
+
+    const series = this.getTimeSeries();
+    const config = _.merge(this.props._config, this.props.config);
+    config.series = this.getTimeSeries();
     return (<Highcharts config={config}/>);
   }
 
