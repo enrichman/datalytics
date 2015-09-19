@@ -2,6 +2,7 @@ import React from 'react';
 import Highcharts from 'react-highcharts';
 import _ from 'lodash';
 import moment from 'moment';
+import md5 from 'md5';
 
 class TimeSeriesChart extends React.Component {
 
@@ -19,8 +20,11 @@ class TimeSeriesChart extends React.Component {
 
   render() {
     const format = this.props.format;
-    const series = this.props.currentTimeSeries;
+    const series = this.props.currentTimeSeries[md5(JSON.stringify({key: this.props.idAnalysis, granularity: this.props.granularity, period: this.props.period}))];
     const config = {
+      chart: {
+        type: 'area',
+      },
       title: {
         text: this.props.title,
       },

@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/FedericoGinosa/datalytics#readme",
   "dependencies": {
+    "md5": "2.0.0",
     "async": "^1.4.2",
     "body-parser": "^1.13.3",
     "chart.js": "^1.0.2",

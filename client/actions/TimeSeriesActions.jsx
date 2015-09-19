@@ -1,6 +1,7 @@
 import { Actions } from 'flummox';
 import request from 'request';
 import qs from 'querystring';
+import md5 from 'md5';
 
 class TimeSeriesActions extends Actions {
 
@@ -10,7 +11,7 @@ class TimeSeriesActions extends Actions {
         if (err) {
           reject(err);
         } else {
-          resolve(JSON.parse(body));
+          resolve({key: md5(JSON.stringify(query)), data: JSON.parse(body)});
         }
       });
     });

@@ -15,7 +15,9 @@ class TimeSeriesStore extends Store  {
   }
 
   handleNewTimeSeries(result) {
-    this.setState({currentTimeSeries: result});
+    const currentTimeSeries = this.state.currentTimeSeries;
+    currentTimeSeries[result.key] = result.data;
+    this.setState({currentTimeSeries: currentTimeSeries});
   }
 
 }
