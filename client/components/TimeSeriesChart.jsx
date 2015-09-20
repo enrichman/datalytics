@@ -10,57 +10,12 @@ class TimeSeriesChart extends React.Component {
     flux: React.PropTypes.object,
     query: React.PropTypes.object,
     currentTimeSeries: React.PropTypes.array,
+    config: React.PropTypes.object,
   };
 
-  static defaultProps = {
-    _config: {
-      chart: {
-        type: 'area',
-      },
-      title: {
-        text: 'Title of chart',
-      },
-      credits: {
-        enabled: false,
-      },
-      exporting: {
-        enabled: true,
-      },
-      xAxis: {
-        type: 'datetime',
-        labels: {
-          rotation: -45,
-          formatter: function() {
-            return moment(this.value * 1000).format('HH:mm');
-          },
-        },
-      },
-      yAxis: {
-        title: {
-          text: 'Numero di tweet',
-        },
-        plotLines: [{
-          value: 0,
-          width: 0,
-          color: '#808080',
-        }],
-      },
-      tooltip: {
-        valueSuffix: 'tweet',
-      },
-      legend: {
-        layout: 'vertical',
-        align: 'right',
-        verticalAlign: 'top',
-        borderWidth: 0,
-      },
-      series: [],
-    },
+  constructor(props) {
+    super(props);
   }
-
-    constructor(props) {
-      super(props);
-    }
 
   componentWillMount() {
     this.props.flux.getActions('timeSeries').getTimeSeries(this.props.query);
@@ -75,10 +30,12 @@ class TimeSeriesChart extends React.Component {
   }
 
   render() {
-    const series = this.getTimeSeries();
-    const config = _.merge(this.props._config, this.props.config);
-    config.series = this.getTimeSeries();
-    return (<Highcharts config={config}/>);
+    if (this.props.config) {
+      const config = this.props.config;
+      config.series = this.getTimeSeries();
+      return (<Highcharts config={config}/>);
+    }
+    return null;
   }
 
 }

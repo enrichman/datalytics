@@ -28,16 +28,46 @@ class AnalysisDetails extends React.Component {
             <FluxComponent connectToStores={['socket', 'analysis', 'timeSeries']}>
               <TimeSeriesChart
                 config={{
+                  chart: {
+                    type: 'area',
+                  },
                   title: {
                     text: 'Ultimo minuto',
                   },
+                  credits: {
+                    enabled: false,
+                  },
+                  exporting: {
+                    enabled: true,
+                  },
                   xAxis: {
                     labels: {
+                      rotation: -45,
                       formatter: function() {
                         return moment(this.value * 1000).format('HH:mm:ss');
                       },
                     },
                   },
+                  yAxis: {
+                    title: {
+                      text: 'Numero di tweet',
+                    },
+                    plotLines: [{
+                      value: 0,
+                      width: 0,
+                      color: '#808080',
+                    }],
+                  },
+                  tooltip: {
+                    valueSuffix: 'tweet',
+                  },
+                  legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'top',
+                    borderWidth: 0,
+                  },
+                  series: [],
                 }}
                 query={{
                   analysis: 'timeseries',
@@ -52,16 +82,46 @@ class AnalysisDetails extends React.Component {
             <FluxComponent connectToStores={['socket', 'analysis', 'timeSeries']}>
               <TimeSeriesChart
                 config={{
+                  chart: {
+                    type: 'area',
+                  },
                   title: {
                     text: 'Ultima ora',
                   },
+                  credits: {
+                    enabled: false,
+                  },
+                  exporting: {
+                    enabled: true,
+                  },
                   xAxis: {
                     labels: {
+                      rotation: -45,
                       formatter: function() {
                         return moment(this.value * 1000).format('HH:mm');
                       },
                     },
                   },
+                  yAxis: {
+                    title: {
+                      text: 'Numero di tweet',
+                    },
+                    plotLines: [{
+                      value: 0,
+                      width: 0,
+                      color: '#808080',
+                    }],
+                  },
+                  tooltip: {
+                    valueSuffix: 'tweet',
+                  },
+                  legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'top',
+                    borderWidth: 0,
+                  },
+                  series: [],
                 }}
                 query={{
                   analysis: 'timeseries',
@@ -70,18 +130,21 @@ class AnalysisDetails extends React.Component {
                   granularity: '1minute',
                   period: 60,
                 }}
-              />
+                />
             </FluxComponent>
 
             <FluxComponent connectToStores={['socket', 'analysis', 'timeSeries']}>
               <TimeSeriesChart
-                _config={{
+                config={{
                   chart: {
                     type: 'scatter',
                     zoomType: 'xy',
                   },
                   title: {
                     text: 'Analisi sentiment/volume dell\'ultimo minuto',
+                  },
+                  credits: {
+                    enabled: false,
                   },
                   yAxis: {
                     title: {
@@ -108,10 +171,13 @@ class AnalysisDetails extends React.Component {
 
             <FluxComponent connectToStores={['socket', 'analysis', 'timeSeries']}>
               <TimeSeriesChart
-                _config={{
+                config={{
                   chart: {
                     type: 'scatter',
                     zoomType: 'xy',
+                  },
+                  credits: {
+                    enabled: false,
                   },
                   title: {
                     text: 'Analisi sentiment/volume di oggi',
