@@ -44,6 +44,7 @@ class ChartVolumeLastHourContainer extends React.Component {
         },
       },
       yAxis: {
+        gridLineColor: 'transparent',
         title: {
           text: 'Numero di tweet',
         },
@@ -55,6 +56,13 @@ class ChartVolumeLastHourContainer extends React.Component {
       },
       tooltip: {
         valueSuffix: 'tweet',
+      },
+      plotOptions: {
+        area: {
+          marker: {
+            enabled: false,
+          },
+        },
       },
       legend: {
         layout: 'vertical',

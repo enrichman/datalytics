@@ -6,7 +6,7 @@ import {
   ChartVolumeLastMinuteContainer,
   ChartVolumeLastHourContainer,
   ChartSentimentLastMinuteContainer,
-  ChartSentimentLastHourContainer,
+  ChartSentimentLastDayContainer,
 } from './../containers/index.jsx';
 
 import FluxComponent from 'flummox/component';
@@ -33,11 +33,11 @@ class AnalysisDetails extends React.Component {
               <CounterTwitter type="reached" channel={id} message="persone raggiunte" />
             </FluxComponent>
 
-            <FluxComponent connectToStores={['timeSeries']}>
+            <FluxComponent connectToStores={['socket']}>
               <ChartVolumeLastMinuteContainer id={id} />
               <ChartSentimentLastMinuteContainer id={id} />
               <ChartVolumeLastHourContainer id={id} />
-              <ChartSentimentLastHourContainer id={id} />
+              <ChartSentimentLastDayContainer id={id} />
             </FluxComponent>
 
           </div>

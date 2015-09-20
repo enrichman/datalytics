@@ -1,7 +1,7 @@
 import React from 'react';
-import ReactGridLayout from 'react-grid-layout';
-import { Menu, FormCreateAnalysis } from './../components/index.jsx';
 import FluxComponent from 'flummox/component';
+import ReactGridLayout from 'react-grid-layout';
+import { Menu, FormCreateAnalysis, TableAnalysis } from './../components/index.jsx';
 
 class Popular extends React.Component {
 
@@ -17,7 +17,10 @@ class Popular extends React.Component {
         </div>
         <div className="RoutePage" key={2} _grid={{x: 2, y: 0, w: 7, h: 3}}>
           <div>
-            <h1>Popolari</h1>
+            <h1>Le mie analisi più popolari</h1>
+            <FluxComponent connectToStores={['analysis']}>
+              <TableAnalysis />
+            </FluxComponent>
           </div>
         </div>
         <div key={4} _grid={{x: 9, y: 2, w: 3, h: 4}}>

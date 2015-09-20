@@ -1,7 +1,7 @@
 import React from 'react';
 import Highcharts from 'react-highcharts';
 
-class ChartSentimentLastHourContainer extends React.Component {
+class ChartSentimentLastDayContainer extends React.Component {
 
   constructor() {
     super();
@@ -13,7 +13,7 @@ class ChartSentimentLastHourContainer extends React.Component {
       analysis: 'sentiment',
       key: this.props.id,
       type: 'area',
-      granularity: '1hour',
+      granularity: '1day',
       period: 1,
     }).then(result => {
       this.setState({series: result.data});
@@ -30,7 +30,7 @@ class ChartSentimentLastHourContainer extends React.Component {
         enabled: false,
       },
       title: {
-        text: 'Analisi sentiment/volume dell\'ultima ora',
+        text: 'Sentiment analysis / volume di oggi',
       },
       yAxis: {
         title: {
@@ -52,4 +52,4 @@ class ChartSentimentLastHourContainer extends React.Component {
 
 }
 
-export default ChartSentimentLastHourContainer;
+export default ChartSentimentLastDayContainer;

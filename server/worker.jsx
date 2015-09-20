@@ -101,5 +101,10 @@ export const run = worker => {
       scServer.global.publish(id, tweet);
       scServer.global.publish(id + ':ping', {comment: 1, reached: tweet.user.followers_count});
     });
+    twitterStream.on(/keyword\/.*/, (tweet, channel) => {
+      const keyword = channel.match(/\/(.*?)$/)[1];
+      scServer.global.publish(keyword, tweet);
+      scServer.global.publish(keyword + ':ping', {comment: 1, reached: tweet.user.followers_count});
+    });
   });
 }
