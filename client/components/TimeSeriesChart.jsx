@@ -26,11 +26,16 @@ class TimeSeriesChart extends React.Component {
   }
 
   getTimeSeries() {
-    return this.props.currentTimeSeries[this.getIdChart()];
+    const currentTimeSeries = this.props.currentTimeSeries[this.getIdChart()];
+    if (currentTimeSeries) {
+      return currentTimeSeries;
+    }
+    this.props.flux.getActions('timeSeries').getTimeSeries(this.props.query);
+    return null;
   }
 
   render() {
-    if (this.props.config) {
+    if (this.props.config && this.getTimeSeries()) {
       const config = this.props.config;
       config.series = this.getTimeSeries();
       return (<Highcharts config={config}/>);
