@@ -1,8 +1,15 @@
 import React from 'react';
 import ReactGridLayout from 'react-grid-layout';
-import { Menu, FormCreateAnalysis, CounterTwitter, TimeSeriesChart } from './../components/index.jsx';
+import { Menu, CounterTwitter, TimeSeriesChart } from './../components/index.jsx';
+
+import {
+  ChartVolumeLastMinuteContainer,
+  ChartVolumeLastHourContainer,
+  ChartSentimentLastMinuteContainer,
+  ChartSentimentLastHourContainer,
+} from './../containers/index.jsx';
+
 import FluxComponent from 'flummox/component';
-import moment from 'moment';
 
 class AnalysisDetails extends React.Component {
 
@@ -25,185 +32,14 @@ class AnalysisDetails extends React.Component {
               <CounterTwitter type="comment" channel={id} />
               <CounterTwitter type="reached" channel={id} message="persone raggiunte" />
             </FluxComponent>
-            <FluxComponent connectToStores={['socket', 'analysis', 'timeSeries']}>
-              <TimeSeriesChart
-                config={{
-                  chart: {
-                    type: 'area',
-                  },
-                  title: {
-                    text: 'Ultimo minuto',
-                  },
-                  credits: {
-                    enabled: false,
-                  },
-                  exporting: {
-                    enabled: true,
-                  },
-                  xAxis: {
-                    labels: {
-                      rotation: -45,
-                      formatter: function() {
-                        return moment(this.value * 1000).format('HH:mm:ss');
-                      },
-                    },
-                  },
-                  yAxis: {
-                    title: {
-                      text: 'Numero di tweet',
-                    },
-                    plotLines: [{
-                      value: 0,
-                      width: 0,
-                      color: '#808080',
-                    }],
-                  },
-                  tooltip: {
-                    valueSuffix: 'tweet',
-                  },
-                  legend: {
-                    layout: 'vertical',
-                    align: 'right',
-                    verticalAlign: 'top',
-                    borderWidth: 0,
-                  },
-                  series: [],
-                }}
-                query={{
-                  analysis: 'timeseries',
-                  key: id,
-                  type: 'area',
-                  granularity: '1second',
-                  period: 60,
-                }}
-              />
+
+            <FluxComponent connectToStores={['timeSeries']}>
+              <ChartVolumeLastMinuteContainer id={id} />
+              <ChartSentimentLastMinuteContainer id={id} />
+              <ChartVolumeLastHourContainer id={id} />
+              <ChartSentimentLastHourContainer id={id} />
             </FluxComponent>
 
-            <FluxComponent connectToStores={['socket', 'analysis', 'timeSeries']}>
-              <TimeSeriesChart
-                config={{
-                  chart: {
-                    type: 'area',
-                  },
-                  title: {
-                    text: 'Ultima ora',
-                  },
-                  credits: {
-                    enabled: false,
-                  },
-                  exporting: {
-                    enabled: true,
-                  },
-                  xAxis: {
-                    labels: {
-                      rotation: -45,
-                      formatter: function() {
-                        return moment(this.value * 1000).format('HH:mm');
-                      },
-                    },
-                  },
-                  yAxis: {
-                    title: {
-                      text: 'Numero di tweet',
-                    },
-                    plotLines: [{
-                      value: 0,
-                      width: 0,
-                      color: '#808080',
-                    }],
-                  },
-                  tooltip: {
-                    valueSuffix: 'tweet',
-                  },
-                  legend: {
-                    layout: 'vertical',
-                    align: 'right',
-                    verticalAlign: 'top',
-                    borderWidth: 0,
-                  },
-                  series: [],
-                }}
-                query={{
-                  analysis: 'timeseries',
-                  key: id,
-                  type: 'area',
-                  granularity: '1minute',
-                  period: 60,
-                }}
-                />
-            </FluxComponent>
-
-            <FluxComponent connectToStores={['socket', 'analysis', 'timeSeries']}>
-              <TimeSeriesChart
-                config={{
-                  chart: {
-                    type: 'scatter',
-                    zoomType: 'xy',
-                  },
-                  title: {
-                    text: 'Analisi sentiment/volume dell\'ultimo minuto',
-                  },
-                  credits: {
-                    enabled: false,
-                  },
-                  yAxis: {
-                    title: {
-                      text: 'Sentiment',
-                    },
-                  },
-                  plotOptions: {
-                    scatter: {
-                      tooltip: {
-                        headerFormat: '<b>{series.name}</b><br>',
-                        pointFormat: '{point.x} tweet, {point.y} sentiment',
-                      },
-                    },
-                  },
-                }}
-                query={{
-                  analysis: 'sentiment',
-                  key: id,
-                  granularity: '1minute',
-                  period: 1,
-                }}
-                />
-            </FluxComponent>
-
-            <FluxComponent connectToStores={['socket', 'analysis', 'timeSeries']}>
-              <TimeSeriesChart
-                config={{
-                  chart: {
-                    type: 'scatter',
-                    zoomType: 'xy',
-                  },
-                  credits: {
-                    enabled: false,
-                  },
-                  title: {
-                    text: 'Analisi sentiment/volume di oggi',
-                  },
-                  yAxis: {
-                    title: {
-                      text: 'Sentiment',
-                    },
-                  },
-                  plotOptions: {
-                    scatter: {
-                      tooltip: {
-                        headerFormat: '<b>{series.name}</b><br>',
-                        pointFormat: '{point.x} tweet, {point.y} sentiment',
-                      },
-                    },
-                  },
-                }}
-                query={{
-                  analysis: 'sentiment',
-                  key: id,
-                  granularity: '1day',
-                  period: 1,
-                }}
-                />
-            </FluxComponent>
           </div>
         </div>
       </ReactGridLayout>
