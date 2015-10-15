@@ -1,9 +1,11 @@
 import TimeSeriesRedis from 'redis-timeseries';
 import Redis from 'redis';
+import config from 'config';
 
 class TimeSeriesSentiment {
 
-  static timeSeriesRedis = new TimeSeriesRedis(Redis.createClient(), 'sentiment', {
+  static timeSeriesRedis = new TimeSeriesRedis(Redis.createClient(config.databases.redis.port,
+      config.databases.redis.host), 'sentiment', {
     '1second': {
       ttl: 31536000,
       duration: 1,

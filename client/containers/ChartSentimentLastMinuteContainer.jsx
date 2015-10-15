@@ -18,18 +18,6 @@ class ChartSentimentLastMinuteContainer extends React.Component {
     }).then(result => {
       this.setState({series: result.data});
     });
-
-    setInterval(() => {
-      this.props.flux.getStore('timeSeries').getTimeSeries({
-        analysis: 'sentiment',
-        key: this.props.id,
-        type: 'area',
-        granularity: '1minute',
-        period: 1,
-      }).then(result => {
-        this.setState({series: result.data});
-      });
-    }, 5000);
   }
 
   render() {

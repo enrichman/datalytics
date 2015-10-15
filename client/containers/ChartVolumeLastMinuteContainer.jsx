@@ -22,18 +22,6 @@ class ChartVolumeLastMinuteContainer extends React.Component {
 
     this.props.flux.getStore('analysis').getAnalysis(this.props.id).then(analysis => {
     });
-
-    setInterval(() => {
-      this.props.flux.getStore('timeSeries').getTimeSeries({
-        analysis: 'timeseries',
-        key: this.props.id,
-        type: 'area',
-        granularity: '1second',
-        period: 60,
-      }).then(result => {
-        this.setState({series: result.data});
-      });
-    }, 5000);
   }
 
   render() {
